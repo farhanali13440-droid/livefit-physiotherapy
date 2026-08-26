@@ -150,5 +150,36 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
   }
 }
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: reveal-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes reveal-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
