@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import logo from "@/assets/livefit-logo.jpg.asset.json";
+import { trackPhoneConversion } from "@/lib/conversion";
 import { NAV, PHONE_TEL } from "./data";
 
 export function Header() {
