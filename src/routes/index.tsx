@@ -201,8 +201,8 @@ function Index() {
         <section id="about" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
             <img
-              src={clinicImg}
-              alt="Physiotherapy treatment session at LiveFit Physiotherapy in Islamabad"
+              src={consultAsset.url}
+              alt="Consultation with the physiotherapist at LiveFit Physiotherapy, Islamabad"
               width={1200}
               height={1200}
               loading="lazy"
