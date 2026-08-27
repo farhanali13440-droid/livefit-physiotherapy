@@ -34,8 +34,12 @@ import {
 } from "@/components/livefit/data";
 import logo from "@/assets/livefit-logo.jpg.asset.json";
 /* Doctor / physiotherapist portrait — replace this file to swap the photo. */
-import doctorImg from "@/assets/hero-physio.jpg";
-import clinicImg from "@/assets/sports-rehab.jpg";
+import doctorAsset from "@/assets/doctor-livefit.png.asset.json";
+import assessmentAsset from "@/assets/clinic-assessment.png.asset.json";
+import consultAsset from "@/assets/clinic-consult.png.asset.json";
+import treatmentAsset from "@/assets/clinic-treatment.png.asset.json";
+import mobilityAsset from "@/assets/clinic-mobility.png.asset.json";
+import frontAsset from "@/assets/clinic-signboard.webp.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -113,17 +117,12 @@ function Index() {
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pt-12 pb-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-20 lg:pb-24">
             <div>
               <Eyebrow>LiveFit Physiotherapy — Islamabad</Eyebrow>
-              <h1 className="mt-6 font-display text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
-                Move Better.
-                <br />
-                <span className="text-primary">Live Stronger.</span>
+              <p className="mt-3 text-lg font-medium text-primary">Move Better. Live Stronger.</p>
+              <h1 className="mt-4 font-display text-5xl leading-[1.02] sm:text-6xl lg:text-[4.25rem]">
+                Expert Physiotherapy Care in Islamabad
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-snug font-medium text-charcoal-soft sm:text-xl">
-                Expert Physiotherapy Care for Pain Relief, Recovery &amp; Better Movement
-              </p>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Personalized physiotherapy designed to help you reduce pain, restore movement and
-                get back to the activities you love.
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                Personalized physiotherapy for pain relief, rehabilitation and better movement.
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -132,7 +131,7 @@ function Index() {
                   Call Now — {PHONE_DISPLAY}
                 </a>
                 <a href={PHONE_TEL} className={CALL_SECONDARY}>
-                  Book Your Appointment
+                  Book an Appointment
                 </a>
               </div>
 
@@ -150,17 +149,18 @@ function Index() {
 
             <div className="relative">
               <img
-                src={doctorImg}
+                src={doctorAsset.url}
                 alt="Physiotherapist at LiveFit Physiotherapy, F-7 Markaz Islamabad"
-                width={1200}
-                height={1400}
-                className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-[0_24px_60px_-24px_oklch(0.24_0.006_150_/_0.35)]"
+                width={1080}
+                height={1440}
+                className="aspect-[3/4] w-full rounded-[2rem] object-cover object-top shadow-[0_24px_60px_-24px_oklch(0.24_0.006_150_/_0.35)]"
               />
               <div className="absolute -bottom-6 left-4 rounded-2xl border border-border bg-card p-5 shadow-[0_18px_40px_-20px_oklch(0.24_0.006_150_/_0.35)] sm:left-auto sm:-left-8">
                 <div className="flex items-center gap-3">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent">
                     <HeartPulse className="h-4 w-4 text-primary" strokeWidth={2} />
                   </span>
+
                   <div>
                     <p className="text-sm font-semibold text-charcoal">Personalized Care</p>
                     <p className="mt-0.5 text-xs text-muted-foreground">
@@ -201,8 +201,8 @@ function Index() {
         <section id="about" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
             <img
-              src={clinicImg}
-              alt="Physiotherapy treatment session at LiveFit Physiotherapy in Islamabad"
+              src={consultAsset.url}
+              alt="Consultation with the physiotherapist at LiveFit Physiotherapy, Islamabad"
               width={1200}
               height={1200}
               loading="lazy"
@@ -230,6 +230,39 @@ function Index() {
             </div>
           </div>
         </section>
+
+        {/* INSIDE THE CLINIC — real photographs */}
+        <section className="border-t border-border bg-sand">
+          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
+            <div className="max-w-2xl">
+              <Eyebrow>Inside the Clinic</Eyebrow>
+              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">
+                Real Care, Real Patients
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Photographs from our F-7 Markaz clinic in Islamabad.
+              </p>
+            </div>
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { src: assessmentAsset.url, alt: "Physiotherapy assessment at LiveFit Physiotherapy, Islamabad" },
+                { src: treatmentAsset.url, alt: "Electrotherapy and heat therapy treatment session at LiveFit" },
+                { src: mobilityAsset.url, alt: "Shoulder mobility session with a patient at LiveFit" },
+                { src: frontAsset.url, alt: "LiveFit Physiotherapy clinic signboard in F-7 Markaz, Islamabad" },
+              ].map((img) => (
+                <img
+                  key={img.src}
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="aspect-[3/4] w-full rounded-[1.5rem] object-cover shadow-[0_18px_40px_-24px_oklch(0.24_0.006_150_/_0.35)]"
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+
 
         {/* SERVICES */}
         <section id="services" className="border-y border-border bg-sand">
