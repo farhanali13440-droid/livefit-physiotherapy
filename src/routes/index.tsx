@@ -34,8 +34,12 @@ import {
 } from "@/components/livefit/data";
 import logo from "@/assets/livefit-logo.jpg.asset.json";
 /* Doctor / physiotherapist portrait — replace this file to swap the photo. */
-import doctorImg from "@/assets/hero-physio.jpg";
-import clinicImg from "@/assets/sports-rehab.jpg";
+import doctorAsset from "@/assets/doctor-livefit.png.asset.json";
+import assessmentAsset from "@/assets/clinic-assessment.png.asset.json";
+import consultAsset from "@/assets/clinic-consult.png.asset.json";
+import treatmentAsset from "@/assets/clinic-treatment.png.asset.json";
+import mobilityAsset from "@/assets/clinic-mobility.png.asset.json";
+import frontAsset from "@/assets/clinic-signboard.webp.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
