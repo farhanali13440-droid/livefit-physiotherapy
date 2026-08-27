@@ -120,14 +120,12 @@ function Index() {
               <h1 className="mt-6 font-display text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
                 Move Better.
                 <br />
-                <span className="text-primary">Live Stronger.</span>
+              <p className="mt-3 text-lg font-medium text-primary">Move Better. Live Stronger.</p>
+              <h1 className="mt-4 font-display text-5xl leading-[1.02] sm:text-6xl lg:text-[4.25rem]">
+                Expert Physiotherapy Care in Islamabad
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-snug font-medium text-charcoal-soft sm:text-xl">
-                Expert Physiotherapy Care for Pain Relief, Recovery &amp; Better Movement
-              </p>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Personalized physiotherapy designed to help you reduce pain, restore movement and
-                get back to the activities you love.
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                Personalized physiotherapy for pain relief, rehabilitation and better movement.
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -136,7 +134,7 @@ function Index() {
                   Call Now — {PHONE_DISPLAY}
                 </a>
                 <a href={PHONE_TEL} className={CALL_SECONDARY}>
-                  Book Your Appointment
+                  Book an Appointment
                 </a>
               </div>
 
@@ -154,17 +152,18 @@ function Index() {
 
             <div className="relative">
               <img
-                src={doctorImg}
+                src={doctorAsset.url}
                 alt="Physiotherapist at LiveFit Physiotherapy, F-7 Markaz Islamabad"
-                width={1200}
-                height={1400}
-                className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-[0_24px_60px_-24px_oklch(0.24_0.006_150_/_0.35)]"
+                width={1080}
+                height={1440}
+                className="aspect-[3/4] w-full rounded-[2rem] object-cover object-top shadow-[0_24px_60px_-24px_oklch(0.24_0.006_150_/_0.35)]"
               />
               <div className="absolute -bottom-6 left-4 rounded-2xl border border-border bg-card p-5 shadow-[0_18px_40px_-20px_oklch(0.24_0.006_150_/_0.35)] sm:left-auto sm:-left-8">
                 <div className="flex items-center gap-3">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent">
                     <HeartPulse className="h-4 w-4 text-primary" strokeWidth={2} />
                   </span>
+
                   <div>
                     <p className="text-sm font-semibold text-charcoal">Personalized Care</p>
                     <p className="mt-0.5 text-xs text-muted-foreground">
