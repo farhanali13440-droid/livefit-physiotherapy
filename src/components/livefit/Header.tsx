@@ -55,6 +55,7 @@ export function Header() {
         <div className="flex shrink-0 items-center gap-2">
           <a
             href={PHONE_TEL}
+            onClick={trackPhoneConversion}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-charcoal hover:text-background sm:px-6"
           >
             <Phone className="h-3.5 w-3.5" strokeWidth={2} />
