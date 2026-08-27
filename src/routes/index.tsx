@@ -117,9 +117,6 @@ function Index() {
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pt-12 pb-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-20 lg:pb-24">
             <div>
               <Eyebrow>LiveFit Physiotherapy — Islamabad</Eyebrow>
-              <h1 className="mt-6 font-display text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
-                Move Better.
-                <br />
               <p className="mt-3 text-lg font-medium text-primary">Move Better. Live Stronger.</p>
               <h1 className="mt-4 font-display text-5xl leading-[1.02] sm:text-6xl lg:text-[4.25rem]">
                 Expert Physiotherapy Care in Islamabad
