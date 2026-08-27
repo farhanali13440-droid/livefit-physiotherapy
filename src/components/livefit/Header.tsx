@@ -54,16 +54,18 @@ export function Header() {
         <div className="flex shrink-0 items-center gap-2">
           <a
             href={PHONE_TEL}
-            className="inline-flex items-center gap-2 bg-charcoal px-4 py-2.5 text-[0.7rem] font-medium tracking-[0.16em] text-background uppercase transition-colors hover:bg-primary hover:text-primary-foreground sm:px-6"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-charcoal hover:text-background sm:px-6"
           >
-            <Phone className="h-3.5 w-3.5" strokeWidth={1.75} />
-            Call Now
+            <Phone className="h-3.5 w-3.5" strokeWidth={2} />
+            <span className="hidden sm:inline">Call Now — 0332 3337337</span>
+            <span className="sm:hidden">Call Now</span>
           </a>
+
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
-            className="grid h-10 w-10 shrink-0 place-items-center border border-border text-foreground lg:hidden"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-foreground lg:hidden"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
