@@ -231,6 +231,39 @@ function Index() {
           </div>
         </section>
 
+        {/* INSIDE THE CLINIC — real photographs */}
+        <section className="border-t border-border bg-sand">
+          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
+            <div className="max-w-2xl">
+              <Eyebrow>Inside the Clinic</Eyebrow>
+              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">
+                Real Care, Real Patients
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Photographs from our F-7 Markaz clinic in Islamabad.
+              </p>
+            </div>
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { src: assessmentAsset.url, alt: "Physiotherapy assessment at LiveFit Physiotherapy, Islamabad" },
+                { src: treatmentAsset.url, alt: "Electrotherapy and heat therapy treatment session at LiveFit" },
+                { src: mobilityAsset.url, alt: "Shoulder mobility session with a patient at LiveFit" },
+                { src: frontAsset.url, alt: "LiveFit Physiotherapy clinic signboard in F-7 Markaz, Islamabad" },
+              ].map((img) => (
+                <img
+                  key={img.src}
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="aspect-[3/4] w-full rounded-[1.5rem] object-cover shadow-[0_18px_40px_-24px_oklch(0.24_0.006_150_/_0.35)]"
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+
+
         {/* SERVICES */}
         <section id="services" className="border-y border-border bg-sand">
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
