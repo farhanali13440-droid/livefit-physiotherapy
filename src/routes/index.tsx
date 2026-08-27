@@ -20,6 +20,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Header } from "@/components/livefit/Header";
+import { trackPhoneConversion } from "@/lib/conversion";
 import {
   ADDRESS,
   FAQS,
@@ -126,11 +127,11 @@ function Index() {
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href={PHONE_TEL} className={CALL_PRIMARY}>
+                <a href={PHONE_TEL} onClick={trackPhoneConversion} className={CALL_PRIMARY}>
                   <Phone className="h-4 w-4" strokeWidth={2} />
                   Call Now — {PHONE_DISPLAY}
                 </a>
-                <a href={PHONE_TEL} className={CALL_SECONDARY}>
+                <a href={PHONE_TEL} onClick={trackPhoneConversion} className={CALL_SECONDARY}>
                   Book an Appointment
                 </a>
               </div>
@@ -223,7 +224,7 @@ function Index() {
                 Our goal is simple: help you move with less pain, greater confidence and better
                 function.
               </p>
-              <a href={PHONE_TEL} className={`${CALL_PRIMARY} mt-9`}>
+              <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${CALL_PRIMARY} mt-9`}>
                 <Phone className="h-4 w-4" strokeWidth={2} />
                 Talk to a Physiotherapist
               </a>
@@ -297,6 +298,7 @@ function Index() {
                     </p>
                     <a
                       href={PHONE_TEL}
+                      onClick={trackPhoneConversion}
                       className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-charcoal"
                     >
                       {s.cta}
@@ -321,7 +323,7 @@ function Index() {
                 Instead of simply treating the symptoms, our approach focuses on understanding the
                 underlying movement limitations and creating a treatment plan around your needs.
               </p>
-              <a href={PHONE_TEL} className={`${CALL_PRIMARY} mt-9`}>
+              <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${CALL_PRIMARY} mt-9`}>
                 <Phone className="h-4 w-4" strokeWidth={2} />
                 Speak With LiveFit Today
               </a>
@@ -403,6 +405,7 @@ function Index() {
                   <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" strokeWidth={1.75} />
                   <a
                     href={PHONE_TEL}
+                    onClick={trackPhoneConversion}
                     className="text-sm font-semibold text-charcoal hover:text-primary"
                   >
                     {PHONE_DISPLAY}
@@ -427,7 +430,7 @@ function Index() {
                     <Navigation className="h-4 w-4" strokeWidth={2} />
                     Get Directions
                   </a>
-                  <a href={PHONE_TEL} className={`${CALL_PRIMARY} flex-1`}>
+                  <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${CALL_PRIMARY} flex-1`}>
                     <Phone className="h-4 w-4" strokeWidth={2} />
                     Call Now
                   </a>
@@ -463,6 +466,7 @@ function Index() {
             <div className="lg:justify-self-end">
               <a
                 href={PHONE_TEL}
+                onClick={trackPhoneConversion}
                 className="flex flex-col items-start gap-1 rounded-3xl bg-primary px-9 py-7 transition-colors hover:bg-background"
               >
                 <span className="eyebrow text-primary-foreground/70">Call Now</span>
@@ -472,6 +476,7 @@ function Index() {
               </a>
               <a
                 href={PHONE_TEL}
+                onClick={trackPhoneConversion}
                 className="mt-3 inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-background/30 px-9 py-4 text-sm font-semibold text-background transition-colors hover:bg-background hover:text-charcoal"
               >
                 Book Your Appointment
@@ -550,13 +555,17 @@ function Index() {
               <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
                 <li>F-7 Markaz, Islamabad</li>
                 <li>
-                  <a href={PHONE_TEL} className="font-semibold text-charcoal hover:text-primary">
+                  <a
+                    href={PHONE_TEL}
+                    onClick={trackPhoneConversion}
+                    className="font-semibold text-charcoal hover:text-primary"
+                  >
                     {PHONE_DISPLAY}
                   </a>
                 </li>
                 <li>Monday–Saturday • 12 PM–8 PM</li>
               </ul>
-              <a href={PHONE_TEL} className={`${CALL_PRIMARY} mt-6`}>
+              <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${CALL_PRIMARY} mt-6`}>
                 <Phone className="h-4 w-4" strokeWidth={2} />
                 Call Now
               </a>
@@ -569,9 +578,10 @@ function Index() {
       </main>
 
       {/* MOBILE STICKY CALL CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card p-3 shadow-[0_-8px_24px_-16px_oklch(0.24_0.006_150_/_0.4)] lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card p-3 shadow-[0_-8px_24px_-16px_oklch(0.24_0.006_150_/_0.4)] lg:hidden">
         <a
           href={PHONE_TEL}
+          onClick={trackPhoneConversion}
           className="flex w-full items-center justify-center gap-2.5 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground"
         >
           <Phone className="h-4 w-4" strokeWidth={2} />
