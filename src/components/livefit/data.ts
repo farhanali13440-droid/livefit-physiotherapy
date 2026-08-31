@@ -1,6 +1,8 @@
 export const PHONE_DISPLAY = "0332 3337337";
 export const PHONE_TEL = "tel:+923323337337";
-export const WHATSAPP = "https://wa.me/923323337337";
+export const WHATSAPP =
+  "https://wa.me/923323337337?text=" +
+  encodeURIComponent("I want an appointment for physiotherapy WB.");
 export const ADDRESS = "F-7 Markaz, F-7 Markaz, Islamabad, 44210";
 
 /**

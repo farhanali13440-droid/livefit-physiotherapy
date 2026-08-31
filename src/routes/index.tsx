@@ -27,6 +27,7 @@ import {
   MAPS_URL,
   PHONE_DISPLAY,
   PHONE_TEL,
+  WHATSAPP,
   PROBLEMS,
   SERVICES,
   STEPS,
@@ -131,8 +132,8 @@ function Index() {
                   <Phone className="h-4 w-4" strokeWidth={2} />
                   Call Now — {PHONE_DISPLAY}
                 </a>
-                <a href={PHONE_TEL} onClick={trackPhoneConversion} className={CALL_SECONDARY}>
-                  Book an Appointment
+                <a href={WHATSAPP} target="_blank" rel="noreferrer" className={CALL_SECONDARY}>
+                  Chat on WhatsApp
                 </a>
               </div>
 
