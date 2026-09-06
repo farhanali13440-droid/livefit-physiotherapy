@@ -3,14 +3,14 @@ export const PHONE_TEL = "tel:+923323337337";
 export const WHATSAPP =
   "https://wa.me/923323337337?text=" +
   encodeURIComponent("I want an appointment for physiotherapy WB.");
-export const ADDRESS = "Suite# LG-04, Pakland Trade Centre, Islamabad";
+export const ADDRESS = "Suite# LG-04, Pakland Trade Centre, F7 Markaz, Islamabad";
 
 /**
  * TODO: replace with the clinic's official Google Business Profile / Maps URL.
  * Currently a generic Maps search for the clinic address.
  */
 export const MAPS_URL =
-  "https://www.google.com/maps/search/?api=1&query=Suite%23+LG-04%2C+Pakland+Trade+Centre%2C+Islamabad";
+  "https://www.google.com/maps/search/?api=1&query=Suite%23+LG-04%2C+Pakland+Trade+Centre%2C+F7+Markaz%2C+Islamabad";
 export const DIRECTIONS = MAPS_URL;
 export const GOOGLE_REVIEWS = MAPS_URL;
 
@@ -93,7 +93,7 @@ export const WHY = [
   },
   {
     title: "Convenient Islamabad Location",
-    body: "Located in Suite# LG-04, Pakland Trade Centre, Islamabad, making professional physiotherapy easy to access.",
+    body: "Located in Suite# LG-04, Pakland Trade Centre, F7 Markaz, Islamabad, making professional physiotherapy easy to access.",
   },
 ];
 
