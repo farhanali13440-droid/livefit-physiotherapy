@@ -79,7 +79,7 @@ export const Route = createFileRoute("/")({
           url: "https://livefit-premium-landing.lovable.app/",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Suite# LG-04, Pakland Trade Centre",
+            streetAddress: "Suite# LG-04, Pakland Trade Centre, F7 Markaz",
             addressLocality: "Islamabad",
             addressCountry: "PK",
           },
@@ -139,7 +139,7 @@ function Index() {
               <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
-                  Suite# LG-04, Pakland Trade Centre, Islamabad
+                  Suite# LG-04, Pakland Trade Centre, F7 Markaz, Islamabad
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <Clock className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
@@ -440,8 +440,8 @@ function Index() {
 
             <div className="overflow-hidden rounded-[2rem] border border-border bg-card">
               <iframe
-                title="LiveFit Physiotherapy location map — Suite# LG-04, Pakland Trade Centre, Islamabad"
-                src="https://www.google.com/maps?q=Suite%23%20LG-04%2C%20Pakland%20Trade%20Centre%2C%20Islamabad&output=embed"
+                title="LiveFit Physiotherapy location map — Suite# LG-04, Pakland Trade Centre, F7 Markaz, Islamabad"
+                src="https://www.google.com/maps?q=Suite%23%20LG-04%2C%20Pakland%20Trade%20Centre%2C%20F7%20Markaz%2C%20Islamabad&output=embed"
                 loading="lazy"
                 className="h-[380px] w-full lg:h-full lg:min-h-[520px]"
                 style={{ border: 0 }}
