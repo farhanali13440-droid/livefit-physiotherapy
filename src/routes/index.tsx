@@ -50,7 +50,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "LiveFit Physiotherapy in F-7 Markaz Islamabad. Personalized physiotherapy for pain relief, rehabilitation, sports injuries and better movement. Call 0332 3337337.",
+          "LiveFit Physiotherapy in Islamabad. Personalized physiotherapy for pain relief, rehabilitation, sports injuries and better movement. Call 0332 3337337.",
       },
       {
         property: "og:title",
@@ -59,7 +59,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Personalized physiotherapy in F-7 Markaz, Islamabad for pain relief, rehabilitation and better movement. Call 0332 3337337.",
+          "Personalized physiotherapy in Islamabad for pain relief, rehabilitation and better movement. Call 0332 3337337.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://livefit-premium-landing.lovable.app/" },
@@ -74,14 +74,13 @@ export const Route = createFileRoute("/")({
           "@type": "Physiotherapy",
           name: "LiveFit Physiotherapy",
           description:
-            "Physiotherapy clinic in F-7 Markaz, Islamabad offering personalized physiotherapy for pain relief, rehabilitation and better movement.",
+            "Physiotherapy clinic in Islamabad offering personalized physiotherapy for pain relief, rehabilitation and better movement.",
           telephone: "+92 332 3337337",
           url: "https://livefit-premium-landing.lovable.app/",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "F-7 Markaz",
+            streetAddress: "Suite# LG-04, Pakland Trade Centre",
             addressLocality: "Islamabad",
-            postalCode: "44210",
             addressCountry: "PK",
           },
         }),
@@ -140,7 +139,7 @@ function Index() {
               <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
-                  F-7 Markaz, Islamabad
+                  Suite# LG-04, Pakland Trade Centre, Islamabad
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <Clock className="h-3.5 w-3.5 text-primary" strokeWidth={1.75} />
@@ -152,7 +151,7 @@ function Index() {
             <div className="relative">
               <img
                 src={doctorAsset.url}
-                alt="Physiotherapist at LiveFit Physiotherapy, F-7 Markaz Islamabad"
+                alt="Physiotherapist at LiveFit Physiotherapy, Islamabad"
                 width={1080}
                 height={1440}
                 className="aspect-[3/4] w-full rounded-[2rem] object-cover object-top shadow-[0_24px_60px_-24px_oklch(0.24_0.006_150_/_0.35)]"
@@ -242,7 +241,7 @@ function Index() {
                 Real Care, Real Patients
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Photographs from our F-7 Markaz clinic in Islamabad.
+                Photographs from our clinic in Islamabad.
               </p>
             </div>
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -250,7 +249,7 @@ function Index() {
                 { src: assessmentAsset.url, alt: "Physiotherapy assessment at LiveFit Physiotherapy, Islamabad" },
                 { src: treatmentAsset.url, alt: "Electrotherapy and heat therapy treatment session at LiveFit" },
                 { src: mobilityAsset.url, alt: "Shoulder mobility session with a patient at LiveFit" },
-                { src: frontAsset.url, alt: "LiveFit Physiotherapy clinic signboard in F-7 Markaz, Islamabad" },
+                { src: frontAsset.url, alt: "LiveFit Physiotherapy clinic signboard in Islamabad" },
               ].map((img) => (
                 <img
                   key={img.src}
@@ -441,8 +440,8 @@ function Index() {
 
             <div className="overflow-hidden rounded-[2rem] border border-border bg-card">
               <iframe
-                title="LiveFit Physiotherapy location map — F-7 Markaz, Islamabad"
-                src="https://www.google.com/maps?q=F-7%20Markaz%2C%20Islamabad%2044210&output=embed"
+                title="LiveFit Physiotherapy location map — Suite# LG-04, Pakland Trade Centre, Islamabad"
+                src="https://www.google.com/maps?q=Suite%23%20LG-04%2C%20Pakland%20Trade%20Centre%2C%20Islamabad&output=embed"
                 loading="lazy"
                 className="h-[380px] w-full lg:h-full lg:min-h-[520px]"
                 style={{ border: 0 }}
@@ -554,7 +553,7 @@ function Index() {
             <div>
               <p className="eyebrow text-charcoal">Contact</p>
               <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-                <li>F-7 Markaz, Islamabad</li>
+                <li>Suite# LG-04, Pakland Trade Centre, Islamabad</li>
                 <li>
                   <a
                     href={PHONE_TEL}
