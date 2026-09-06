@@ -553,7 +553,7 @@ function Index() {
             <div>
               <p className="eyebrow text-charcoal">Contact</p>
               <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-                <li>Suite# LG-04, Pakland Trade Centre, Islamabad</li>
+                <li>{ADDRESS}</li>
                 <li>
                   <a
                     href={PHONE_TEL}
