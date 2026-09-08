@@ -1,22 +1,13 @@
 export const PHONE_DISPLAY = "0332 3337337";
 export const PHONE_TEL = "tel:+923323337337";
-export const WHATSAPP_BASE = "https://wa.me/923323337337?text=";
 export const WHATSAPP =
-  WHATSAPP_BASE + encodeURIComponent("I want an appointment for physiotherapy WB.");
-export const ADDRESS = "Suite# LG-04, Pakland Trade Centre, F-7 Markaz, Islamabad";
-export const CONSULT_PRICE = "PKR 1,499";
-export const SITE_URL = "https://livefitphysiotherapy.com";
-
-export const DOCTOR = {
-  name: "Dr. Saad Sarfraz",
-  role: "Chief Physiotherapist",
-  quals: ["DPT (STMU)", "MSPH (QAU)", "COMT (UK)", "CSMT (UK)", "CKTP (USA)"],
-  focus: "Specialized in Spine & Sports Physiotherapy",
-  conditions: "Disc Bulge • Sciatica • Chronic Back Pain",
-};
+  "https://wa.me/923323337337?text=" +
+  encodeURIComponent("I want an appointment for physiotherapy WB.");
+export const ADDRESS = "Suite# LG-04, Pakland Trade Centre, F7 Markaz, Islamabad";
 
 /**
  * TODO: replace with the clinic's official Google Business Profile / Maps URL.
+ * Currently a generic Maps search for the clinic address.
  */
 export const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Suite%23+LG-04%2C+Pakland+Trade+Centre%2C+F7+Markaz%2C+Islamabad";
@@ -25,115 +16,125 @@ export const GOOGLE_REVIEWS = MAPS_URL;
 
 export const NAV = [
   { label: "Home", href: "#top" },
-  { label: "Your Physiotherapist", href: "#doctor" },
-  { label: "Conditions", href: "#conditions" },
-  { label: "Consultation", href: "#offer" },
-  { label: "Location", href: "#contact" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Why LiveFit", href: "#why" },
+  { label: "Contact", href: "#contact" },
 ];
 
-export const HERO_TRUST = [
-  "Personalized Assessment",
-  "Spine & Sports Physiotherapy",
-  "F-7 Markaz, Islamabad",
-];
+export const TRUST_STRIP = [
+  { title: "Expert Physiotherapy Care", icon: "stethoscope" },
+  { title: "Personalized Treatment Plans", icon: "clipboard" },
+  { title: "Evidence-Based Techniques", icon: "activity" },
+  { title: "Convenient Islamabad Location", icon: "pin" },
+] as const;
 
-export const PROBLEMS = [
-  "Pain from the lower back into the leg",
-  "Difficulty sitting, standing or walking",
-  "Back stiffness or restricted movement",
-  "Recurring pain affecting daily activities",
-];
-
-export const CONDITIONS_TREATED = [
+export const SERVICES = [
   {
-    title: "Sciatica",
-    body: "Assessment and physiotherapy for nerve-related pain travelling from the lower back into the leg.",
+    title: "Back & Neck Pain Treatment",
+    body: "Targeted physiotherapy to help manage back pain, neck pain, stiffness and movement limitations.",
+    cta: "Call About Back & Neck Pain",
     icon: "spine",
   },
   {
-    title: "Disc Bulge",
-    body: "Movement-based rehabilitation and manual therapy planned around your assessment findings.",
-    icon: "activity",
+    title: "Sports Injury Rehabilitation",
+    body: "Structured rehabilitation to help you recover from sports injuries and safely return to activity.",
+    cta: "Call About Sports Rehabilitation",
+    icon: "sports",
   },
   {
-    title: "Chronic Back Pain",
-    body: "A structured plan to reduce pain, restore mobility and rebuild strength over time.",
-    icon: "heart",
-  },
-  {
-    title: "Neck & Spine Problems",
-    body: "Care for neck pain, stiffness and posture-related spine complaints.",
-    icon: "bone",
+    title: "Joint Pain & Mobility Rehabilitation",
+    body: "Personalized treatment to improve joint mobility, strength and everyday movement.",
+    cta: "Call About Joint Pain",
+    icon: "joint",
   },
 ] as const;
 
-export const WHY = [
-  {
-    title: "Experienced Physiotherapist",
-    body: "You are assessed by Dr. Saad Sarfraz, Chief Physiotherapist, with advanced manual and sports therapy training.",
-  },
-  {
-    title: "Personalized Treatment",
-    body: "Your plan is built around your assessment, your condition and your daily movement goals.",
-  },
-  {
-    title: "Spine & Sports Focus",
-    body: "Focused experience in sciatica, disc-related pain, back pain and sports rehabilitation.",
-  },
-  {
-    title: "Convenient Islamabad Location",
-    body: "Suite# LG-04, Pakland Trade Centre, F-7 Markaz — easy to reach from across Islamabad.",
-  },
-];
-
-export const CONSULT_INCLUDES = [
-  "Initial assessment",
-  "Understanding your condition",
-  "Movement / function evaluation",
-  "Personalized treatment guidance",
+export const PROBLEMS = [
+  "Back pain",
+  "Neck pain",
+  "Joint stiffness",
+  "Sports injuries",
+  "Muscle tightness",
+  "Limited mobility",
+  "Movement difficulties",
 ];
 
 export const STEPS = [
   {
     n: "01",
-    title: "Book Your Assessment",
-    body: "Call or send a booking request and we confirm a time that works for you.",
+    title: "Initial Assessment",
+    body: "We assess your movement, pain, mobility and physical limitations to understand what is contributing to your problem.",
   },
   {
     n: "02",
-    title: "Get Assessed",
-    body: "Dr. Saad reviews your history, movement and pain to understand what is driving your symptoms.",
+    title: "Personalized Treatment Plan",
+    body: "Based on your assessment, we create a treatment approach tailored to your specific condition and goals.",
   },
   {
     n: "03",
-    title: "Get Your Treatment Plan",
-    body: "You leave with a clear, personalized physiotherapy plan and next steps for your recovery.",
+    title: "Recovery & Better Movement",
+    body: "We work with you to improve mobility, strength and function so you can move with greater confidence.",
   },
+];
+
+export const WHY = [
+  {
+    title: "Personalized Care",
+    body: "Your treatment is built around your individual condition and goals.",
+  },
+  {
+    title: "Professional Approach",
+    body: "Focused physiotherapy care using structured assessment and treatment techniques.",
+  },
+  {
+    title: "Patient-Centered Treatment",
+    body: "We take time to understand your concerns and explain your treatment approach.",
+  },
+  {
+    title: "Convenient Islamabad Location",
+    body: "Located in Suite# LG-04, Pakland Trade Centre, F7 Markaz, Islamabad, making professional physiotherapy easy to access.",
+  },
+];
+
+export const CONDITIONS = [
+  "Back Pain",
+  "Neck Pain",
+  "Knee Pain",
+  "Shoulder Pain",
+  "Sciatica",
+  "Joint Pain",
+  "Sports Injuries",
+  "Post-Surgical Recovery",
+  "Stroke Rehabilitation",
+  "Posture Problems",
+  "Frozen Shoulder",
+  "Muscle Tightness",
 ];
 
 export const FAQS = [
   {
-    q: "Do I need an appointment?",
-    a: "Yes, appointments are recommended so your assessment time is reserved. Call 0332 3337337 or send a booking request and our team will confirm availability.",
+    q: "What conditions can physiotherapy help with?",
+    a: "Physiotherapy is commonly used for back pain, neck pain, joint pain, sports injuries, post-surgical recovery, posture problems, muscle tightness and general mobility difficulties. During your assessment we discuss whether physiotherapy is suitable for your condition.",
   },
   {
-    q: "Do you treat sciatica?",
-    a: "Yes. Sciatica is one of our main focus areas. Treatment begins with an assessment to understand your symptoms and movement limitations, followed by a personalized physiotherapy plan.",
+    q: "Do I need an assessment before treatment?",
+    a: "Yes. An initial assessment helps us understand your symptoms, movement and physical limitations so treatment can be planned around your specific needs rather than a general routine.",
   },
   {
-    q: "Do you treat disc bulge?",
-    a: "Yes. Physiotherapy for disc-related pain is a core part of our spine care. Your plan is based on your assessment findings, any imaging you already have and your day-to-day goals.",
+    q: "How does a physiotherapy treatment plan work?",
+    a: "After your assessment, we outline a treatment approach based on your condition and goals. This can include hands-on physiotherapy techniques, therapeutic exercise and progressive rehabilitation, reviewed as you improve.",
   },
   {
-    q: "Who will assess me?",
-    a: "Dr. Saad Sarfraz, Chief Physiotherapist at LiveFit — DPT (STMU), MSPH (QAU), COMT (UK), CSMT (UK), CKTP (USA), specialized in spine and sports physiotherapy.",
+    q: "Can physiotherapy help with back and neck pain?",
+    a: "Back and neck pain physiotherapy is one of our core services. Treatment focuses on your assessment findings, movement limitations and day-to-day functional goals.",
   },
   {
-    q: "Where is LiveFit located?",
-    a: "Suite# LG-04, Pakland Trade Centre, F-7 Markaz, Islamabad. Parking and public transport access are available nearby.",
+    q: "Can physiotherapy help with sports injuries?",
+    a: "Yes. We provide sports injury rehabilitation, including strength and mobility work and structured return-to-activity planning appropriate to your injury and sport.",
   },
   {
-    q: "How much is the consultation?",
-    a: "The physiotherapy consultation is PKR 1,499. It includes your initial assessment, movement evaluation and personalized treatment guidance.",
+    q: "How do I book an appointment at LiveFit?",
+    a: "Call 0332 3337337 and our team will confirm availability and guide you through booking your appointment.",
   },
 ];
