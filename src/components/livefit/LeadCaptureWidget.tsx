@@ -1,77 +1,11 @@
 import { FormEvent, useState } from "react";
 import { CheckCircle2, X } from "lucide-react";
-import { createLead } from "@/lib/leadTracking";
+import { createLead, trackLeadEvent } from "@/lib/leadTracking";
 import { supabaseConfigured } from "@/lib/supabase";
 
 export function LeadCaptureWidget() {
-  const [open, setOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setBusy(true);
-    setError("");
-    const form = new FormData(event.currentTarget);
-    try {
-      await createLead({
-        name: String(form.get("name") || ""),
-        phone: String(form.get("phone") || ""),
-        email: String(form.get("email") || ""),
-      });
-      setSubmitted(true);
-      event.currentTarget.reset();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please call LiveFit directly.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  if (!supabaseConfigured) return null;
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => { setOpen(true); setSubmitted(false); setError(""); }}
-        className="fixed bottom-24 right-4 z-40 rounded-full border border-border bg-card px-5 py-3 text-sm font-semibold text-charcoal shadow-xl transition hover:-translate-y-0.5 lg:bottom-6"
-      >
-        Request an Appointment
-      </button>
-
-      {open && (
-        <div className="fixed inset-0 z-[60] flex items-end justify-center bg-charcoal/50 p-4 sm:items-center">
-          <div className="w-full max-w-md border border-border bg-card p-6 shadow-2xl sm:p-8" role="dialog" aria-modal="true" aria-labelledby="lead-form-title">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="eyebrow text-primary">LiveFit Physiotherapy</p>
-                <h2 id="lead-form-title" className="mt-3 font-display text-3xl text-charcoal">Request an Appointment</h2>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">Leave your details and LiveFit can confirm an available appointment time.</p>
-              </div>
-              <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="rounded-full p-2 text-muted-foreground hover:bg-muted"><X className="h-5 w-5" /></button>
-            </div>
-
-            {submitted ? (
-              <div className="mt-8 border border-primary/20 bg-accent p-5 text-center">
-                <CheckCircle2 className="mx-auto h-9 w-9 text-primary" />
-                <p className="mt-3 font-semibold text-charcoal">Thank you. Your request has been received.</p>
-                <p className="mt-2 text-sm text-muted-foreground">LiveFit can contact you to confirm the appointment time.</p>
-                <button type="button" onClick={() => setOpen(false)} className="mt-5 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground">Done</button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="mt-7 space-y-4">
-                <label className="block"><span className="mb-1.5 block text-sm font-semibold text-charcoal">Name</span><input required name="name" autoComplete="name" className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary" /></label>
-                <label className="block"><span className="mb-1.5 block text-sm font-semibold text-charcoal">Phone</span><input required name="phone" type="tel" inputMode="tel" autoComplete="tel" className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary" /></label>
-                <label className="block"><span className="mb-1.5 block text-sm font-semibold text-charcoal">Email</span><input required name="email" type="email" autoComplete="email" className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary" /></label>
-                {error && <p className="text-sm text-destructive">{error}</p>}
-                <button disabled={busy} type="submit" className="w-full rounded-full bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-60">{busy ? "Sending…" : "Submit Appointment Request"}</button>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
-    </>
-  );
+  const [open,setOpen]=useState(false),[submitted,setSubmitted]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState("");
+  async function handleSubmit(event:FormEvent<HTMLFormElement>){event.preventDefault();setBusy(true);setError("");const form=new FormData(event.currentTarget);try{await createLead({name:String(form.get("name")||""),phone:String(form.get("phone")||""),email:String(form.get("email")||"")});await trackLeadEvent("assessment_form_submit",window.location.pathname,"appointment_widget");setSubmitted(true);event.currentTarget.reset()}catch(err){setError(err instanceof Error?err.message:"Something went wrong. Please call LiveFit directly.")}finally{setBusy(false)}}
+  if(!supabaseConfigured)return null;
+  return <><button type="button" onClick={()=>{setOpen(true);setSubmitted(false);setError("")}} className="fixed bottom-24 right-4 z-40 rounded-full border border-border bg-card px-5 py-3 text-sm font-semibold text-charcoal shadow-xl transition hover:-translate-y-0.5 lg:bottom-6">Request an Appointment</button>{open&&<div className="fixed inset-0 z-[60] flex items-end justify-center bg-charcoal/50 p-4 sm:items-center"><div className="w-full max-w-md border border-border bg-card p-6 shadow-2xl sm:p-8" role="dialog" aria-modal="true" aria-labelledby="lead-form-title"><div className="flex items-start justify-between gap-4"><div><p className="eyebrow text-primary">LiveFit Physiotherapy</p><h2 id="lead-form-title" className="mt-3 font-display text-3xl text-charcoal">Request an Appointment</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">Leave your details and LiveFit can confirm an available appointment time.</p></div><button type="button" onClick={()=>setOpen(false)} aria-label="Close" className="rounded-full p-2 text-muted-foreground hover:bg-muted"><X className="h-5 w-5"/></button></div>{submitted?<div className="mt-8 border border-primary/20 bg-accent p-5 text-center"><CheckCircle2 className="mx-auto h-9 w-9 text-primary"/><p className="mt-3 font-semibold text-charcoal">Thank you. Your request has been received.</p><p className="mt-2 text-sm text-muted-foreground">LiveFit can contact you to confirm the appointment time.</p><button type="button" onClick={()=>setOpen(false)} className="mt-5 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground">Done</button></div>:<form onSubmit={handleSubmit} className="mt-7 space-y-4"><label className="block"><span className="mb-1.5 block text-sm font-semibold text-charcoal">Name</span><input required name="name" autoComplete="name" className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary"/></label><label className="block"><span className="mb-1.5 block text-sm font-semibold text-charcoal">Phone</span><input required name="phone" type="tel" inputMode="tel" autoComplete="tel" className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary"/></label><label className="block"><span className="mb-1.5 block text-sm font-semibold text-charcoal">Email</span><input required name="email" type="email" autoComplete="email" className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary"/></label>{error&&<p className="text-sm text-destructive">{error}</p>}<button disabled={busy} type="submit" className="w-full rounded-full bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-60">{busy?"Sending…":"Submit Appointment Request"}</button></form>}</div></div>}</>;
 }
