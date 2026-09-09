@@ -4,20 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -66,7 +52,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-
 :root {
   --radius: 0.25rem;
   --background: oklch(0.988 0.002 120);
@@ -106,7 +91,6 @@
   --sidebar-ring: oklch(0.7 0.185 138);
 }
 
-
 .dark {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
@@ -143,23 +127,23 @@
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    padding-bottom: 0;
   }
-
-  h1,
-  h2,
-  h3 {
+  h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.015em;
+  }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
   }
 }
 
@@ -176,10 +160,10 @@
   animation: reveal-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes reveal-in {
-  to {
-    opacity: 1;
-    transform: none;
-  }
+@media (max-width: 1023px) {
+  body { padding-bottom: 78px; }
 }
 
+@keyframes reveal-in {
+  to { opacity: 1; transform: none; }
+}
