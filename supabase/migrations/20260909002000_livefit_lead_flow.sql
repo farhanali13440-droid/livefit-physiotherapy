@@ -51,8 +51,9 @@ create index if not exists leads_contact_method_idx on public.leads(contact_meth
 create index if not exists leads_utm_campaign_idx on public.leads(utm_campaign);
 create index if not exists lead_events_lead_id_idx on public.lead_events(lead_id);
 
--- Public visitors can create a lead, but they cannot read the leads table.
--- Deduplication happens inside this SECURITY DEFINER function so RLS is never bypassed by frontend reads.
+-- Remove the old table-level public insert path. Public visitors create leads only through the secure RPC below.
+drop policy if exists "Public can create leads" on public.leads;
+
 create or replace function public.create_livefit_lead(
   p_name text,
   p_phone text,
@@ -79,27 +80,17 @@ declare
   v_existing uuid;
   v_id uuid;
 begin
-  if nullif(trim(coalesce(p_name, '')), '') is null then
-    raise exception 'Name is required';
-  end if;
-
-  if v_phone = '' then
-    raise exception 'Phone number is required';
-  end if;
+  if nullif(trim(coalesce(p_name, '')), '') is null then raise exception 'Name is required'; end if;
+  if v_phone = '' then raise exception 'Phone number is required'; end if;
 
   select id into v_existing
   from public.leads
   where created_at >= now() - interval '24 hours'
-    and (
-      phone = v_phone
-      or (v_email is not null and email = v_email)
-    )
+    and (phone = v_phone or (v_email is not null and email = v_email))
   order by created_at desc
   limit 1;
 
-  if v_existing is not null then
-    return v_existing;
-  end if;
+  if v_existing is not null then return v_existing; end if;
 
   insert into public.leads (
     name, phone, email, contact_method, source,
@@ -110,8 +101,7 @@ begin
     case when p_contact_method in ('Call','WhatsApp') then p_contact_method else 'Not Selected' end,
     p_source, p_utm_source, p_utm_medium, p_utm_campaign, p_utm_content, p_utm_term,
     p_landing_page, p_referrer, p_gclid, 'New', true
-  )
-  returning id into v_id;
+  ) returning id into v_id;
 
   return v_id;
 end;
@@ -120,29 +110,18 @@ $$;
 revoke all on function public.create_livefit_lead(text,text,text,text,text,text,text,text,text,text,text,text,text) from public;
 grant execute on function public.create_livefit_lead(text,text,text,text,text,text,text,text,text,text,text,text,text) to anon, authenticated;
 
-create or replace function public.update_livefit_lead_contact_method(
-  p_lead_id uuid,
-  p_contact_method text
-)
+create or replace function public.update_livefit_lead_contact_method(p_lead_id uuid,p_contact_method text)
 returns boolean
 language plpgsql
 security definer
 set search_path = public
 as $$
 begin
-  if p_contact_method not in ('Not Selected', 'Call', 'WhatsApp') then
-    raise exception 'Invalid contact method';
-  end if;
-
-  update public.leads
-  set contact_method = p_contact_method
-  where id = p_lead_id;
-
+  if p_contact_method not in ('Not Selected', 'Call', 'WhatsApp') then raise exception 'Invalid contact method'; end if;
+  update public.leads set contact_method = p_contact_method where id = p_lead_id;
   return found;
 end;
 $$;
 
 revoke all on function public.update_livefit_lead_contact_method(uuid,text) from public;
 grant execute on function public.update_livefit_lead_contact_method(uuid,text) to anon, authenticated;
-
--- Direct/public event inserts remain insert-only; owner reads remain protected by the existing RLS policies.
