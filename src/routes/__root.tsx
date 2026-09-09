@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { captureInitialAttribution, trackLeadEvent } from "../lib/leadTracking";
+import { LeadCaptureWidget } from "../components/livefit/LeadCaptureWidget";
 
 function NotFoundComponent() {
   return (
@@ -45,6 +47,28 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
       </div>
     </div>
   );
+}
+
+function LeadTrackingListener() {
+  useEffect(() => {
+    captureInitialAttribution();
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const anchor = target?.closest("a") as HTMLAnchorElement | null;
+      if (!anchor) return;
+      const href = anchor.getAttribute("href") || "";
+      const eventType = href.startsWith("tel:") ? "call_click" : href.includes("wa.me/") ? "whatsapp_click" : null;
+      if (!eventType) return;
+      const ctaLocation = (anchor.dataset.ctaLocation || anchor.getAttribute("aria-label") || anchor.textContent || "CTA").trim().replace(/\s+/g, " ").slice(0, 120);
+      void trackLeadEvent(eventType, window.location.pathname, ctaLocation);
+    };
+
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
+  }, []);
+
+  return null;
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
@@ -92,7 +116,9 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      <LeadTrackingListener />
       <Outlet />
+      <LeadCaptureWidget />
     </QueryClientProvider>
   );
 }
