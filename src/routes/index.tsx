@@ -1,38 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  Phone,
-  MapPin,
-  Clock,
-  Check,
-  Stethoscope,
-  ClipboardList,
-  Activity,
-  Navigation,
-  ArrowRight,
-  HeartPulse,
-  Bone,
-  Dumbbell,
-} from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { useState } from "react";
+import { Phone, MapPin, Clock, Check, ClipboardList, ArrowRight, HeartPulse, Navigation, Star } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Header } from "@/components/livefit/Header";
 import { trackPhoneConversion } from "@/lib/conversion";
-import {
-  ADDRESS,
-  FAQS,
-  MAPS_URL,
-  PHONE_DISPLAY,
-  PHONE_TEL,
-  PROBLEMS,
-  SERVICES,
-  STEPS,
-  TRUST_STRIP,
-  WHY,
-} from "@/components/livefit/data";
+import { ADDRESS, FAQS, MAPS_URL, PHONE_DISPLAY, PHONE_TEL, PROBLEMS, SERVICES, STEPS } from "@/components/livefit/data";
 import logo from "@/assets/livefit-logo.jpg.asset.json";
 import doctorAsset from "@/assets/doctor-livefit.png.asset.json";
 import assessmentAsset from "@/assets/clinic-assessment.png.asset.json";
@@ -45,432 +17,41 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Physiotherapy in Islamabad | LiveFit Physiotherapy" },
-      {
-        name: "description",
-        content:
-          "Expert physiotherapy in Islamabad for back pain, sciatica, disc bulge, spine problems and sports injuries. Book your assessment at LiveFit.",
-      },
-      {
-        property: "og:title",
-        content: "Physiotherapy in Islamabad | LiveFit Physiotherapy",
-      },
-      {
-        property: "og:description",
-        content:
-          "Expert physiotherapy in Islamabad for back pain, sciatica, disc bulge, spine problems and sports injuries. Book your assessment at LiveFit.",
-      },
+      { name: "description", content: "Expert physiotherapy in Islamabad for back pain, sciatica, disc bulge, spine problems and sports injuries. Book your assessment at LiveFit." },
+      { property: "og:title", content: "Physiotherapy in Islamabad | LiveFit Physiotherapy" },
+      { property: "og:description", content: "Expert physiotherapy in Islamabad for back pain, sciatica, disc bulge, spine problems and sports injuries. Book your assessment at LiveFit." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://livefitphysiotherapy.com/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "https://livefitphysiotherapy.com/" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "MedicalClinic",
-          name: "LiveFit Physiotherapy",
-          description:
-            "Physiotherapy clinic in Islamabad focused on back pain, spine problems, sciatica, disc bulge and sports injury rehabilitation.",
-          telephone: "+92 332 3337337",
-          url: "https://livefitphysiotherapy.com/",
-          medicalSpecialty: "Physiotherapy",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "Suite # LG-04, Pakland Trade Centre, F-7 Markaz",
-            addressLocality: "Islamabad",
-            addressCountry: "PK",
-          },
-        }),
-      },
-    ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "MedicalClinic", name: "LiveFit Physiotherapy", description: "Physiotherapy clinic in Islamabad focused on back pain, spine problems, sciatica, disc bulge and sports injury rehabilitation.", telephone: "+92 332 3337337", url: "https://livefitphysiotherapy.com/", medicalSpecialty: "Physiotherapy", address: { "@type": "PostalAddress", streetAddress: "Suite # LG-04, Pakland Trade Centre, F-7 Markaz", addressLocality: "Islamabad", addressCountry: "PK" } }) }],
   }),
   component: Index,
 });
 
-const CALL_PRIMARY =
-  "inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-charcoal hover:text-background";
-const CALL_SECONDARY =
-  "inline-flex items-center justify-center gap-2.5 rounded-full border border-charcoal/20 bg-card px-7 py-4 text-sm font-semibold text-charcoal transition-colors hover:border-charcoal hover:bg-charcoal hover:text-background";
-const ASSESSMENT_PRICE = "PKR 1,499";
-
-function Eyebrow({ children }: { children: string }) {
-  return (
-    <p className="eyebrow inline-flex items-center gap-2.5 rounded-full bg-accent px-4 py-2 text-accent-foreground">
-      {children}
-    </p>
-  );
-}
+const PRIMARY = "inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-charcoal hover:text-background hover:-translate-y-0.5";
+const SECONDARY = "inline-flex items-center justify-center gap-2.5 rounded-full border border-charcoal/20 bg-card px-7 py-4 text-sm font-semibold text-charcoal transition-all hover:border-charcoal hover:bg-charcoal hover:text-background";
+const PRICE = "PKR 1,499";
+function Eyebrow({ children }: { children: string }) { return <p className="eyebrow inline-flex rounded-full bg-accent px-4 py-2 text-accent-foreground">{children}</p>; }
+function Book({ className = "" }: { className?: string }) { return <a href="#assessment" className={`${PRIMARY} ${className}`}><ClipboardList className="h-4 w-4" /> BOOK YOUR ASSESSMENT</a>; }
+function Call({ className = "" }: { className?: string }) { return <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${SECONDARY} ${className}`}><Phone className="h-4 w-4" /> CALL {PHONE_DISPLAY}</a>; }
+function FlipCard({ title, body, index }: { title: string; body: string; index: number }) { const [flipped, setFlipped] = useState(false); return <button type="button" onClick={() => setFlipped(v => !v)} className="group relative h-56 w-full [perspective:1000px] text-left" aria-label={`${flipped ? "Hide details for" : "Show details for"} ${title}`}><span className={`absolute inset-0 block rounded-3xl transition-transform duration-500 [transform-style:preserve-3d] ${flipped ? "[transform:rotateY(180deg)]" : ""}`}><span className="absolute inset-0 flex flex-col justify-between rounded-3xl border border-border bg-card p-7 [backface-visibility:hidden]"><span className="flex justify-between"><span className="font-display text-4xl text-primary">0{index}</span><ArrowRight className="h-5 w-5 text-muted-foreground" /></span><span><span className="block text-lg font-semibold text-charcoal">{title}</span><span className="mt-2 block text-xs text-muted-foreground">Tap to learn more</span></span></span><span className="absolute inset-0 flex flex-col justify-between rounded-3xl bg-charcoal p-7 text-background [backface-visibility:hidden] [transform:rotateY(180deg)]"><span className="font-display text-3xl text-primary">0{index}</span><span><span className="block text-lg font-semibold">{title}</span><span className="mt-3 block text-sm leading-relaxed text-background/70">{body}</span><span className="mt-5 block text-xs font-semibold text-primary">BOOK AN ASSESSMENT →</span></span></span></span></button>; }
 
 function Index() {
-  const bookAssessmentHref = "#assessment";
-
-  return (
-    <div id="top" className="min-h-screen bg-background">
-      <Header />
-
-      <main className="pb-20 lg:pb-0">
-        {/* HERO */}
-        <section className="relative overflow-hidden">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -top-40 -right-32 h-[520px] w-[520px] rounded-full bg-accent/60 blur-3xl"
-          />
-          <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pt-12 pb-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-20 lg:pb-24">
-            <div>
-              <Eyebrow>BACK &amp; SPINE PHYSIOTHERAPY — ISLAMABAD</Eyebrow>
-              <h1 className="mt-5 max-w-3xl font-display text-5xl leading-[1.02] sm:text-6xl lg:text-[4.25rem]">
-                Expert Physiotherapy for Back &amp; Spine Problems
-              </h1>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Get professionally assessed by Dr. Saad Sarfraz, Chief Physiotherapist, with a focus on Spine &amp; Sports Physiotherapy.
-              </p>
-
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href={bookAssessmentHref} className={CALL_PRIMARY}>
-                  <ClipboardList className="h-4 w-4" strokeWidth={2} />
-                  BOOK YOUR ASSESSMENT — {ASSESSMENT_PRICE}
-                </a>
-                <a href={PHONE_TEL} onClick={trackPhoneConversion} className={CALL_SECONDARY}>
-                  <Phone className="h-4 w-4" strokeWidth={2} />
-                  CALL {PHONE_DISPLAY}
-                </a>
-              </div>
-
-              <p className="mt-7 text-xs font-medium text-muted-foreground">
-                Personalized Assessment • Spine-Focused Care • F-7 Markaz
-              </p>
-            </div>
-
-            <div className="relative">
-              <img
-                src={doctorAsset.url}
-                alt="Dr. Saad Sarfraz, Chief Physiotherapist at LiveFit Physiotherapy, Islamabad"
-                width={1080}
-                height={1440}
-                className="aspect-[3/4] w-full rounded-[2rem] object-cover object-top shadow-[0_24px_60px_-24px_oklch(0.24_0.006_150_/_0.35)]"
-              />
-              <div className="absolute -bottom-6 left-4 rounded-2xl border border-border bg-card p-5 shadow-[0_18px_40px_-20px_oklch(0.24_0.006_150_/_0.35)] sm:left-auto sm:-left-8">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent">
-                    <HeartPulse className="h-4 w-4 text-primary" strokeWidth={2} />
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold text-charcoal">Spine &amp; Sports Focus</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground">Professional Assessment</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* DOCTOR AUTHORITY */}
-        <section id="doctor" className="border-y border-border bg-sand">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
-            <div className="grid items-center gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
-              <img
-                src={doctorAsset.url}
-                alt="Dr. Saad Sarfraz, Chief Physiotherapist"
-                width={1080}
-                height={1440}
-                loading="lazy"
-                className="mx-auto aspect-[3/4] w-full max-w-md rounded-[2rem] object-cover object-top lg:mx-0"
-              />
-              <div>
-                <Eyebrow>Meet Dr. Saad Sarfraz</Eyebrow>
-                <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">Dr. Saad Sarfraz</h2>
-                <p className="mt-3 text-base font-semibold text-primary">Chief Physiotherapist</p>
-                <p className="mt-2 text-sm text-charcoal-soft">DPT (STMU) • MSPH (QAU) • COMT (UK) • CSMT (UK) • CKTP (USA)</p>
-                <div className="mt-7 grid gap-5 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-border bg-card p-5">
-                    <p className="eyebrow text-primary">Specialization</p>
-                    <p className="mt-2 font-semibold text-charcoal">Spine &amp; Sports Physiotherapy</p>
-                  </div>
-                  <div className="rounded-2xl border border-border bg-card p-5">
-                    <p className="eyebrow text-primary">Focus Areas</p>
-                    <p className="mt-2 font-semibold text-charcoal">Disc Bulge • Sciatica • Chronic Back Pain</p>
-                  </div>
-                </div>
-                <p className="mt-7 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  LiveFit starts with a professional assessment to understand your symptoms, movement and functional needs before treatment guidance is planned around you.
-                </p>
-                <a href={bookAssessmentHref} className={`${CALL_PRIMARY} mt-8`}>
-                  <ClipboardList className="h-4 w-4" strokeWidth={2} />
-                  BOOK WITH DR. SAAD
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* PATIENT PROBLEM */}
-        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
-            <div>
-              <Eyebrow>Common back &amp; spine concerns</Eyebrow>
-              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">
-                Is Back Pain Affecting Your Daily Life?
-              </h2>
-              <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Persistent or recurring back and leg symptoms can make everyday movement harder. A professional assessment can help clarify what you are experiencing and guide the next step.
-              </p>
-              <a href={bookAssessmentHref} className={`${CALL_PRIMARY} mt-9`}>
-                <ClipboardList className="h-4 w-4" strokeWidth={2} />
-                GET YOUR ASSESSMENT
-              </a>
-            </div>
-            <ul className="grid gap-3 sm:grid-cols-2 lg:content-start">
-              {PROBLEMS.map((p) => (
-                <li key={p} className="flex items-center gap-3 rounded-2xl border border-border bg-card px-5 py-4 text-sm text-charcoal">
-                  <Check className="h-4 w-4 shrink-0 text-primary" strokeWidth={2.25} />
-                  {p}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* SERVICES */}
-        <section id="services" className="border-y border-border bg-sand">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
-            <div className="max-w-2xl">
-              <Eyebrow>Back, Spine &amp; Sports Services</Eyebrow>
-              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">Physiotherapy for the Problems You’re Facing</h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Start with an assessment so treatment guidance can be matched to your symptoms, movement and goals.
-              </p>
-            </div>
-
-            <div className="mt-12 grid gap-6 lg:grid-cols-3">
-              {SERVICES.map((s) => {
-                const Icon = s.icon === "spine" ? Bone : s.icon === "sports" ? Dumbbell : Activity;
-                return (
-                  <article key={s.title} className="group flex flex-col rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_44px_-24px_oklch(0.24_0.006_150_/_0.35)]">
-                    <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent transition-colors group-hover:bg-primary">
-                      <Icon className="h-5 w-5 text-primary transition-colors group-hover:text-primary-foreground" strokeWidth={1.75} />
-                    </span>
-                    <h3 className="mt-6 text-xl text-charcoal">{s.title}</h3>
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-                    <a href={bookAssessmentHref} className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-charcoal">
-                      {s.cta}
-                      <ArrowRight className="h-4 w-4" strokeWidth={2} />
-                    </a>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ASSESSMENT OFFER */}
-        <section id="assessment" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
-          <div className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_24px_60px_-34px_oklch(0.24_0.006_150_/_0.35)]">
-            <div className="grid gap-10 p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center lg:p-14">
-              <div>
-                <Eyebrow>PHYSIOTHERAPY ASSESSMENT</Eyebrow>
-                <h2 className="mt-6 max-w-3xl font-display text-4xl leading-tight sm:text-5xl">Start With a Professional Physiotherapy Assessment</h2>
-                <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-                  {[
-                    "Initial assessment",
-                    "Understanding your symptoms",
-                    "Movement/function evaluation",
-                    "Personalized treatment guidance",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-charcoal">
-                      <Check className="h-4 w-4 shrink-0 text-primary" strokeWidth={2.25} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-3xl border border-border bg-sand p-7 text-center sm:p-9 lg:min-w-[260px]">
-                <p className="eyebrow text-primary">ASSESSMENT FEE</p>
-                <p className="mt-3 font-display text-5xl leading-none text-charcoal sm:text-6xl">{ASSESSMENT_PRICE}</p>
-                <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${CALL_PRIMARY} mt-7 w-full`}>
-                  <Phone className="h-4 w-4" strokeWidth={2} />
-                  BOOK MY ASSESSMENT
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ABOUT / CLINIC */}
-        <section id="about" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-            <img src={consultAsset.url} alt="Consultation with the physiotherapist at LiveFit Physiotherapy, Islamabad" width={1200} height={1200} loading="lazy" className="aspect-square w-full rounded-[2rem] object-cover" />
-            <div>
-              <Eyebrow>About LiveFit</Eyebrow>
-              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">Physiotherapy That Focuses on You</h2>
-              <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                LiveFit Physiotherapy combines professional assessment with individualized treatment guidance focused on symptoms, function and movement goals.
-              </p>
-              <a href={bookAssessmentHref} className={`${CALL_PRIMARY} mt-9`}>
-                <ClipboardList className="h-4 w-4" strokeWidth={2} />
-                BOOK YOUR ASSESSMENT
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* INSIDE THE CLINIC */}
-        <section className="border-t border-border bg-sand">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
-            <div className="max-w-2xl">
-              <Eyebrow>Inside the Clinic</Eyebrow>
-              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">A Professional Clinical Environment</h2>
-            </div>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { src: assessmentAsset.url, alt: "Physiotherapy assessment at LiveFit Physiotherapy, Islamabad" },
-                { src: treatmentAsset.url, alt: "Physiotherapy treatment session at LiveFit Physiotherapy" },
-                { src: mobilityAsset.url, alt: "Mobility session at LiveFit Physiotherapy" },
-                { src: frontAsset.url, alt: "LiveFit Physiotherapy clinic signboard in Islamabad" },
-              ].map((img) => (
-                <img key={img.src} src={img.src} alt={img.alt} loading="lazy" className="aspect-[3/4] w-full rounded-[1.5rem] object-cover shadow-[0_18px_40px_-24px_oklch(0.24_0.006_150_/_0.35)]" />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* WHY LIVEFIT */}
-        <section id="why" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
-          <div className="max-w-2xl">
-            <Eyebrow>Why LiveFit</Eyebrow>
-            <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">Why Choose LiveFit Physiotherapy?</h2>
-          </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {WHY.map((item) => (
-              <div key={item.title} className="rounded-3xl border border-border bg-card p-8 transition-colors hover:border-primary/40">
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-accent">
-                  <Check className="h-5 w-5 text-primary" strokeWidth={2} />
-                </span>
-                <h3 className="mt-6 text-xl text-charcoal">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* HOW IT WORKS */}
-        <section className="border-y border-border bg-sand">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
-            <div className="max-w-2xl">
-              <Eyebrow>How it works</Eyebrow>
-              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">Your Treatment Starts With 3 Simple Steps</h2>
-            </div>
-            <div className="mt-12 grid gap-6 lg:grid-cols-3">
-              {STEPS.map((s) => (
-                <div key={s.n} className="rounded-3xl border border-border bg-card p-8">
-                  <p className="font-display text-4xl leading-none text-primary">{s.n}</p>
-                  <h3 className="mt-5 text-xl text-charcoal">{s.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* LOCATION */}
-        <section id="contact" className="border-y border-border bg-sand">
-          <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:py-28">
-            <div>
-              <Eyebrow>Location</Eyebrow>
-              <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">Visit LiveFit Physiotherapy in Islamabad</h2>
-              <div className="mt-10 space-y-6 rounded-3xl border border-border bg-card p-8">
-                <div className="flex gap-4"><MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" strokeWidth={1.75} /><p className="text-sm text-charcoal">{ADDRESS}</p></div>
-                <div className="flex gap-4"><Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" strokeWidth={1.75} /><a href={PHONE_TEL} onClick={trackPhoneConversion} className="text-sm font-semibold text-charcoal hover:text-primary">{PHONE_DISPLAY}</a></div>
-                <div className="flex gap-4"><Clock className="mt-0.5 h-5 w-5 shrink-0 text-primary" strokeWidth={1.75} /><p className="text-sm text-charcoal">Monday–Saturday: 12 PM–8 PM<span className="mt-1 block text-muted-foreground">Sunday: Closed</span></p></div>
-                <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
-                  <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${CALL_PRIMARY} flex-1`}><Phone className="h-4 w-4" strokeWidth={2} />Call Now</a>
-                  <a href={MAPS_URL} target="_blank" rel="noreferrer" className={`${CALL_SECONDARY} flex-1`}><Navigation className="h-4 w-4" strokeWidth={2} />Get Directions</a>
-                </div>
-              </div>
-            </div>
-            <div className="overflow-hidden rounded-[2rem] border border-border bg-card">
-              <iframe
-                title="LiveFit Physiotherapy location map — Suite # LG-04, Pakland Trade Centre, F-7 Markaz, Islamabad"
-                src="https://www.google.com/maps?q=Suite%23%20LG-04%2C%20Pakland%20Trade%20Centre%2C%20F7%20Markaz%2C%20Islamabad&output=embed"
-                loading="lazy"
-                className="h-[380px] w-full lg:h-full lg:min-h-[520px]"
-                style={{ border: 0 }}
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* FINAL CTA */}
-        <section className="bg-charcoal">
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-24">
-            <div>
-              <h2 className="font-display text-4xl leading-tight text-background sm:text-5xl">Ready to Take the Next Step?</h2>
-              <p className="mt-5 max-w-xl text-sm leading-relaxed text-background/70 sm:text-base">Start with a professional physiotherapy assessment at LiveFit.</p>
-            </div>
-            <div className="lg:justify-self-end">
-              <a href={bookAssessmentHref} className="flex w-full items-center justify-center gap-2.5 rounded-full bg-primary px-8 py-5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-background hover:text-charcoal sm:w-auto">
-                <ClipboardList className="h-4 w-4" strokeWidth={2} />
-                BOOK YOUR ASSESSMENT — {ASSESSMENT_PRICE}
-              </a>
-              <a href={PHONE_TEL} onClick={trackPhoneConversion} className="mt-3 inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-background/30 px-8 py-4 text-sm font-semibold text-background transition-colors hover:bg-background hover:text-charcoal sm:w-auto">
-                <Phone className="h-4 w-4" strokeWidth={2} />
-                CALL {PHONE_DISPLAY}
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="mx-auto max-w-4xl px-5 py-20 sm:px-8 lg:py-28">
-          <Eyebrow>FAQs</Eyebrow>
-          <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">Frequently Asked Questions</h2>
-          <Accordion type="single" collapsible className="mt-10 border-t border-border">
-            {FAQS.map((faq) => (
-              <AccordionItem key={faq.q} value={faq.q} className="border-b border-border">
-                <AccordionTrigger className="py-5 text-left text-base text-charcoal hover:no-underline sm:text-lg">{faq.q}</AccordionTrigger>
-                <AccordionContent className="pb-6 text-sm leading-relaxed text-muted-foreground">{faq.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="border-t border-border bg-sand">
-          <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.3fr_0.8fr_1fr]">
-            <div>
-              <div className="flex items-center gap-3">
-                <img src={logo.url} alt="LiveFit Physiotherapy logo" width={44} height={44} loading="lazy" className="h-11 w-11 rounded-sm object-cover mix-blend-multiply" />
-                <span><span className="block font-display text-xl leading-none">LiveFit</span><span className="eyebrow mt-1 block text-[0.6rem] text-muted-foreground">Physiotherapy</span></span>
-              </div>
-              <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted-foreground">Spine-focused physiotherapy in Islamabad for back pain, sciatica, disc-related symptoms, rehabilitation and sports injuries.</p>
-            </div>
-            <div>
-              <p className="eyebrow text-charcoal">Quick Links</p>
-              <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-                {[{ label: "Home", href: "#top" }, { label: "Dr. Saad", href: "#doctor" }, { label: "Services", href: "#services" }, { label: "Assessment", href: "#assessment" }, { label: "Why LiveFit", href: "#why" }, { label: "Contact", href: "#contact" }].map((l) => <li key={l.href}><a href={l.href} className="transition-colors hover:text-primary">{l.label}</a></li>)}
-              </ul>
-            </div>
-            <div>
-              <p className="eyebrow text-charcoal">Contact</p>
-              <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-                <li>{ADDRESS}</li>
-                <li><a href={PHONE_TEL} onClick={trackPhoneConversion} className="font-semibold text-charcoal hover:text-primary">{PHONE_DISPLAY}</a></li>
-                <li>Monday–Saturday • 12 PM–8 PM</li>
-              </ul>
-              <a href={PHONE_TEL} onClick={trackPhoneConversion} className={`${CALL_PRIMARY} mt-6`}><Phone className="h-4 w-4" strokeWidth={2} />Call Now</a>
-            </div>
-          </div>
-          <div className="mx-auto max-w-7xl border-t border-border px-5 py-6 text-xs text-muted-foreground sm:px-8"><p>© 2026 LiveFit Physiotherapy. All Rights Reserved.</p></div>
-        </footer>
-      </main>
-
-      {/* MOBILE STICKY CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-2 border-t border-border bg-card p-3 shadow-[0_-8px_24px_-16px_oklch(0.24_0.006_150_/_0.4)] lg:hidden">
-        <a href={PHONE_TEL} onClick={trackPhoneConversion} className="flex items-center justify-center gap-2 rounded-full border border-charcoal/20 bg-background py-3.5 text-sm font-semibold text-charcoal"><Phone className="h-4 w-4" strokeWidth={2} />CALL NOW</a>
-        <a href={bookAssessmentHref} className="flex items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground"><ClipboardList className="h-4 w-4" strokeWidth={2} />BOOK ASSESSMENT</a>
-      </div>
-    </div>
-  );
+  return <div id="top" className="min-h-screen overflow-x-hidden bg-background"><Header /><main className="pb-20 lg:pb-0">
+    <section className="relative overflow-hidden"><div aria-hidden className="pointer-events-none absolute -right-40 -top-32 h-[600px] w-[600px] rounded-full bg-accent/70 blur-3xl" /><div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-10 sm:px-8 sm:py-14 lg:grid-cols-[1.02fr_.98fr] lg:gap-14 lg:py-16"><div className="order-2 lg:order-1"><Eyebrow>SPINE &amp; SPORTS PHYSIOTHERAPY • ISLAMABAD</Eyebrow><h1 className="mt-6 max-w-3xl font-display text-5xl leading-[.94] tracking-tight sm:text-6xl lg:text-[4.6rem]">BACK PAIN, SCIATICA &amp; DISC BULGE <span className="text-primary">DESERVE THE RIGHT APPROACH.</span></h1><p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Get a professional physiotherapy assessment with Dr. Saad Sarfraz, Chief Physiotherapist at LiveFit, focused on spine and sports rehabilitation.</p><div className="mt-7 max-w-md border border-border bg-card p-6 shadow-[0_24px_60px_-35px_oklch(0.24_0.006_150_/_0.45)] sm:p-7"><p className="eyebrow text-primary">PHYSIOTHERAPY ASSESSMENT</p><p className="mt-2 font-display text-5xl text-charcoal sm:text-6xl">{PRICE}</p><p className="mt-3 text-sm text-muted-foreground">Personalized assessment • Treatment guidance • Next-step plan</p><div className="mt-5 flex flex-col gap-3 sm:flex-row"><Book className="flex-1" /><Call className="flex-1" /></div><p className="mt-4 text-xs font-medium text-muted-foreground">F-7 Markaz, Islamabad</p></div></div><div className="relative order-1 lg:order-2 lg:pl-4"><div aria-hidden className="absolute -inset-3 -z-10 rounded-[2.5rem] bg-accent/60 blur-xl" /><img src={doctorAsset.url} alt="Dr. Saad Sarfraz, Chief Physiotherapist at LiveFit Physiotherapy" width={1080} height={1440} className="aspect-[3/4] w-full rounded-[2rem] object-cover object-top shadow-[0_30px_70px_-28px_oklch(0.24_0.006_150_/_0.45)]" /><div className="absolute bottom-5 left-5 right-5 border border-border/70 bg-card/95 p-5 shadow-xl backdrop-blur sm:left-auto sm:w-[330px]"><p className="text-base font-semibold text-charcoal">Dr. Saad Sarfraz</p><p className="mt-1 text-xs text-primary">Chief Physiotherapist</p><p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">DPT (STMU) • MSPH (QAU)<br />COMT (UK) • CSMT (UK) • CKTP (USA)</p><p className="mt-3 eyebrow text-charcoal">SPINE &amp; SPORTS PHYSIOTHERAPY</p></div></div></div></section>
+    <section id="about" className="border-y border-border bg-sand"><div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[.72fr_1.28fr] lg:py-24"><div className="relative"><img src={consultAsset.url} alt="Consultation at LiveFit Physiotherapy" loading="lazy" className="aspect-[4/3] w-full object-cover" /><div className="absolute -bottom-4 -right-3 bg-charcoal px-5 py-4 text-background shadow-xl sm:-right-6"><p className="eyebrow text-primary">SPECIALIZATION</p><p className="mt-1 text-sm font-semibold">Spine &amp; Sports Physiotherapy</p></div></div><div><Eyebrow>MEET YOUR SPINE PHYSIOTHERAPIST</Eyebrow><h2 className="mt-5 font-display text-5xl leading-none sm:text-6xl">Dr. Saad Sarfraz</h2><p className="mt-3 text-lg font-semibold text-primary">Chief Physiotherapist</p><div className="mt-5 grid gap-2 text-sm text-charcoal-soft sm:grid-cols-2"><span>DPT (STMU)</span><span>MSPH (QAU)</span><span>COMT (UK)</span><span>CSMT (UK)</span><span>CKTP (USA)</span></div><p className="mt-7 eyebrow text-primary">FOCUS: DISC BULGE • SCIATICA • CHRONIC BACK PAIN</p><p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">Dr. Saad Sarfraz provides personalized physiotherapy and rehabilitation for patients dealing with back pain, sciatica, disc-related problems and movement limitations.</p><Book className="mt-8" /></div></div></section>
+    <section id="conditions" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28"><div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end"><div><Eyebrow>SPECIALIST FOCUS</Eyebrow><h2 className="mt-5 max-w-3xl font-display text-4xl leading-tight sm:text-5xl lg:text-6xl">Focused Care For Back &amp; Spine Problems</h2></div><p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">From persistent lower back pain to sciatica and disc-related symptoms, LiveFit focuses on understanding movement and functional problems before creating an individualized rehabilitation plan.</p></div><div className="mt-12 grid gap-5 md:grid-cols-3">{[["BACK PAIN","Lower back pain, stiffness and movement limitations."],["SCIATICA","Back and leg symptoms requiring professional assessment and rehabilitation."],["DISC BULGE / SLIP DISC","Personalized physiotherapy and rehabilitation for disc-related conditions."]].map(([t,b],i)=><div key={t} className="relative min-h-64 overflow-hidden border border-border bg-sand p-7"><span className="font-display text-6xl text-primary/70">0{i+1}</span><div className="absolute bottom-7 left-7 right-7"><h3 className="font-display text-3xl text-charcoal">{t}</h3><p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">{b}</p></div></div>)}</div></section>
+    <section className="bg-charcoal text-background"><div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24"><Eyebrow>WHY LIVEFIT?</Eyebrow><div className="mt-8 grid gap-10 md:grid-cols-3">{[["01","SPINE-FOCUSED APPROACH","Focused physiotherapy for back and spine-related problems."],["02","PERSONALIZED ASSESSMENT","Your treatment plan starts with understanding your symptoms, movement and individual needs."],["03","EXPERIENCED CLINICAL GUIDANCE","Care led by Dr. Saad Sarfraz, Chief Physiotherapist."]].map(([n,t,b])=><div key={n} className="border-t border-background/20 pt-6"><p className="font-display text-4xl text-primary">{n}</p><h3 className="mt-5 text-lg font-semibold">{t}</h3><p className="mt-3 text-sm leading-relaxed text-background/65">{b}</p></div>)}</div></div></section>
+    <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28"><div className="relative overflow-hidden bg-charcoal px-7 py-10 text-background sm:px-12 lg:px-16 lg:py-14"><div aria-hidden className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" /><div className="relative grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center"><div><Eyebrow>PHYSIOTHERAPY ASSESSMENT</Eyebrow><h2 className="mt-5 max-w-3xl font-display text-4xl leading-tight sm:text-5xl">NOT SURE WHAT'S CAUSING YOUR BACK PAIN?</h2><p className="mt-5 max-w-xl text-sm leading-relaxed text-background/65 sm:text-base">Start with a professional physiotherapy assessment and understand the right next step for your condition.</p></div><div className="lg:min-w-[300px]"><p className="eyebrow text-primary">ASSESSMENT</p><p className="mt-1 font-display text-6xl text-primary">{PRICE}</p><div className="mt-6 flex flex-col gap-3"><a href={PHONE_TEL} onClick={trackPhoneConversion} className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground"><Phone className="h-4 w-4" /> BOOK YOUR ASSESSMENT</a><a href={PHONE_TEL} onClick={trackPhoneConversion} className="inline-flex items-center justify-center gap-2 rounded-full border border-background/25 px-7 py-4 text-sm font-semibold text-background"><Phone className="h-4 w-4" /> CALL {PHONE_DISPLAY}</a></div></div></div></div></section>
+    <section id="services" className="border-y border-border bg-sand"><div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28"><div className="max-w-2xl"><Eyebrow>MORE WAYS WE CAN HELP</Eyebrow><h2 className="mt-5 font-display text-4xl sm:text-5xl">Specialized physiotherapy for movement, injuries and recovery.</h2></div><div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{SERVICES.map((s,i)=><FlipCard key={s.title} title={s.title} body={s.body} index={i+1} />)}</div></div></section>
+    <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28"><div className="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><Eyebrow>REAL CARE. REAL PATIENTS.</Eyebrow><h2 className="mt-5 font-display text-4xl sm:text-5xl">Inside the LiveFit approach.</h2></div><p className="max-w-md text-sm leading-relaxed text-muted-foreground">A look inside our clinic through genuine assessment, treatment and rehabilitation moments.</p></div><div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[{src:assessmentAsset.url,alt:"Physiotherapy assessment at LiveFit"},{src:treatmentAsset.url,alt:"Treatment session at LiveFit"},{src:mobilityAsset.url,alt:"Mobility session at LiveFit"},{src:frontAsset.url,alt:"LiveFit Physiotherapy clinic in Islamabad"}].map(x=><img key={x.src} src={x.src} alt={x.alt} loading="lazy" className="aspect-[4/5] w-full object-cover" />)}</div></section>
+    <section id="reviews" className="border-y border-border bg-sand"><div className="mx-auto max-w-5xl px-5 py-20 text-center sm:px-8 lg:py-24"><Eyebrow>GOOGLE REVIEWS</Eyebrow><h2 className="mt-5 font-display text-4xl sm:text-5xl">TRUSTED BY OUR PATIENTS</h2><p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">See what patients are saying about their experience at LiveFit Physiotherapy.</p><div className="mx-auto mt-10 max-w-2xl border border-border bg-card p-8"><div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-accent"><HeartPulse className="h-5 w-5 text-primary" /></div><p className="mt-5 text-sm leading-relaxed text-muted-foreground">Google reviews are shown here from the clinic's actual review profile. We do not publish fabricated testimonials, names or ratings.</p><a href={MAPS_URL} target="_blank" rel="noreferrer" className={`${SECONDARY} mt-7`}><Star className="h-4 w-4" /> SEE OUR GOOGLE REVIEWS</a></div></div></section>
+    <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28"><div className="text-center"><Eyebrow>YOUR FIRST VISIT</Eyebrow><h2 className="mt-5 font-display text-4xl sm:text-5xl">A Simple Start.</h2></div><div className="mt-12 grid gap-8 md:grid-cols-3">{STEPS.map((s,i)=><div key={s.n} className="px-5 text-center md:px-10"><div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-charcoal font-display text-xl text-primary">{s.n}</div><h3 className="mt-5 text-lg font-semibold text-charcoal">{i===0?"BOOK":i===1?"ASSESS":"PLAN"}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{i===0?"Choose your appointment time.":i===1?"Dr. Saad evaluates your symptoms, movement and functional limitations.":"Get personalized treatment and rehabilitation guidance."}</p></div>)}</div><div className="mt-10 flex justify-center"><Book /></div></section>
+    <section id="contact" className="border-y border-border bg-sand"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:py-24"><div><Eyebrow>VISIT LIVEFIT</Eyebrow><h2 className="mt-5 font-display text-5xl leading-none">F-7 MARKAZ<br /><span className="text-primary">ISLAMABAD</span></h2><div className="mt-8 space-y-5"><p className="flex gap-3 text-sm text-charcoal"><MapPin className="h-5 w-5 shrink-0 text-primary" />Suite # LG-04, Pakland Trade Centre,<br />F-7 Markaz, Islamabad</p><p className="flex gap-3 text-sm font-semibold text-charcoal"><Phone className="h-5 w-5 shrink-0 text-primary" /><a href={PHONE_TEL} onClick={trackPhoneConversion}>{PHONE_DISPLAY}</a></p><p className="flex gap-3 text-sm text-charcoal"><Clock className="h-5 w-5 shrink-0 text-primary" />Monday–Saturday: 12 PM–8 PM<br /><span className="text-muted-foreground">Sunday: Closed</span></p></div><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Call className="flex-1" /><a href={MAPS_URL} target="_blank" rel="noreferrer" className={`${SECONDARY} flex-1`}><Navigation className="h-4 w-4" /> GET DIRECTIONS</a></div></div><div className="min-h-[400px] overflow-hidden border border-border bg-card"><iframe title="LiveFit Physiotherapy location map" src="https://www.google.com/maps?q=Suite%23%20LG-04%2C%20Pakland%20Trade%20Centre%2C%20F7%20Markaz%2C%20Islamabad&output=embed" loading="lazy" className="h-full min-h-[400px] w-full" style={{border:0}} referrerPolicy="no-referrer-when-downgrade" /></div></div></section>
+    <section className="mx-auto max-w-4xl px-5 py-20 sm:px-8 lg:py-24"><Eyebrow>FREQUENTLY ASKED QUESTIONS</Eyebrow><h2 className="mt-5 font-display text-4xl sm:text-5xl">Questions Before You Book?</h2><Accordion type="single" collapsible className="mt-8 border-t border-border">{FAQS.map(f=><AccordionItem key={f.q} value={f.q}><AccordionTrigger className="py-5 text-left text-base text-charcoal hover:no-underline sm:text-lg">{f.q}</AccordionTrigger><AccordionContent className="pb-6 text-sm leading-relaxed text-muted-foreground">{f.a}</AccordionContent></AccordionItem>)}</Accordion></section>
+    <section className="bg-charcoal"><div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24"><div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center"><div><Eyebrow>TAKE THE NEXT STEP</Eyebrow><h2 className="mt-5 max-w-3xl font-display text-5xl leading-none text-background sm:text-6xl">YOUR BACK DESERVES<br /><span className="text-primary">A PROFESSIONAL APPROACH.</span></h2><p className="mt-5 max-w-xl text-sm leading-relaxed text-background/65 sm:text-base">Start with a personalized physiotherapy assessment at LiveFit.</p></div><div><p className="font-display text-6xl text-primary">{PRICE}</p><p className="eyebrow mt-2 text-background/60">PHYSIOTHERAPY ASSESSMENT</p><div className="mt-6 flex flex-col gap-3"><a href={PHONE_TEL} onClick={trackPhoneConversion} className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground"><ClipboardList className="h-4 w-4" /> BOOK YOUR ASSESSMENT</a><a href={PHONE_TEL} onClick={trackPhoneConversion} className="inline-flex items-center justify-center gap-2 rounded-full border border-background/25 px-7 py-4 text-sm font-semibold text-background"><Phone className="h-4 w-4" /> CALL {PHONE_DISPLAY}</a></div></div></div></div></section>
+    <footer className="border-t border-border bg-sand"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-2 lg:grid-cols-4"><div><div className="flex items-center gap-3"><img src={logo.url} alt="LiveFit Physiotherapy logo" width={44} height={44} className="h-11 w-11 rounded-sm object-cover mix-blend-multiply" /><div><p className="font-display text-xl">LiveFit</p><p className="eyebrow text-muted-foreground">Physiotherapy</p></div></div><p className="mt-5 text-sm leading-relaxed text-muted-foreground">Spine &amp; Sports Physiotherapy<br />F-7 Markaz, Islamabad</p></div><div><p className="eyebrow text-charcoal">QUICK LINKS</p><ul className="mt-5 space-y-3 text-sm text-muted-foreground"><li><a href="#top">Home</a></li><li><a href="#about">About Dr. Saad</a></li><li><a href="#conditions">Conditions</a></li><li><a href="#services">Services</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#contact">Contact</a></li></ul></div><div><p className="eyebrow text-charcoal">SERVICES</p><ul className="mt-5 space-y-3 text-sm text-muted-foreground"><li>Back Pain</li><li>Sciatica</li><li>Disc Bulge</li><li>Spine Physiotherapy</li><li>Sports Rehabilitation</li><li>Joint &amp; Mobility</li></ul></div><div><p className="eyebrow text-charcoal">CONTACT</p><a href={PHONE_TEL} onClick={trackPhoneConversion} className="mt-5 block text-lg font-semibold text-charcoal">{PHONE_DISPLAY}</a><p className="mt-3 text-sm text-muted-foreground">Monday–Saturday: 12 PM–8 PM<br />Sunday: Closed</p><Call className="mt-5" /></div></div><div className="mx-auto max-w-7xl border-t border-border px-5 py-5 text-xs text-muted-foreground">© 2026 LiveFit Physiotherapy. All Rights Reserved.</div></footer>
+  </main></div>;
 }
