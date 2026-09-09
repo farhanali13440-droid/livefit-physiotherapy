@@ -97,16 +97,6 @@
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.551 0.027 264.364);
@@ -118,9 +108,9 @@
   --sidebar: oklch(0.208 0.042 265.755);
   --sidebar-foreground: oklch(0.984 0.003 247.858);
   --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary-foreground: oklch(0.984 0 0);
   --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent-foreground: oklch(0.984 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
@@ -175,6 +165,20 @@
 
 @media (max-width: 1023px) {
   body { padding-bottom: 78px; }
+
+  /* Keep the existing Dr. Saad spotlight composition, but let the card sit
+     below the portrait on tablet/mobile so it can never cover his face. */
+  .relative:has(> img[alt^="Dr. Saad Sarfraz"]) > div {
+    position: relative;
+    inset: auto;
+    width: auto;
+    margin: -2.5rem 1.25rem 0;
+    z-index: 10;
+  }
+
+  .relative:has(> img[alt^="Dr. Saad Sarfraz"]) > img {
+    object-position: center 12%;
+  }
 }
 
 @media (max-width: 639px) {
