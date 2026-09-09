@@ -1,7 +1,7 @@
 export const PHONE_DISPLAY = "0332 3337337";
 export const PHONE_TEL = "tel:+923323337337";
 export const WHATSAPP = "https://wa.me/923323337337?text=" + encodeURIComponent("I want an appointment for physiotherapy WB.");
-export const ADDRESS = "Suite# LG-04, Pakland Trade Centre, F7 Markaz, Islamabad";
+export const ADDRESS = "Suite # LG-04, Pakland Trade Centre, F-7 Markaz, Islamabad";
 export const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=Suite%23+LG-04%2C+Pakland+Trade+Centre%2C+F7+Markaz%2C+Islamabad";
 export const DIRECTIONS = MAPS_URL;
 export const GOOGLE_REVIEWS = MAPS_URL;
@@ -37,6 +37,7 @@ export const STEPS = [
   { n: "01", title: "BOOK", body: "Choose your appointment time." },
   { n: "02", title: "ASSESS", body: "Dr. Saad evaluates your symptoms, movement and functional limitations." },
   { n: "03", title: "PLAN", body: "Get personalized treatment and rehabilitation guidance." },
+  { n: "04", title: "REHABILITATE", body: "Follow a progressive plan built around your goals and recovery." },
 ];
 
 export const WHY = [
