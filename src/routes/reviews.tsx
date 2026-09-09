@@ -1,0 +1,5 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/livefit/Header";
+import { ReviewsSection, SiteFooter, BookingCTA, CallCTA } from "@/components/livefit/Site";
+export const Route=createFileRoute("/reviews")({head:()=>({meta:[{title:"Google Reviews | LiveFit Physiotherapy Islamabad"},{name:"description",content:"Read genuine Google reviews from patients who have visited LiveFit Physiotherapy in Islamabad."}]}),component:ReviewsPage});
+function ReviewsPage(){return <div className="min-h-screen bg-background"><Header/><main><ReviewsSection/><section className="bg-charcoal text-background"><div className="mx-auto max-w-7xl px-5 py-16 sm:px-8"><h2 className="font-display text-4xl sm:text-5xl">Ready to get your back problem assessed?</h2><div className="mt-7 flex flex-col gap-3 sm:flex-row"><BookingCTA page="/reviews" location="bottom_booking"/><CallCTA page="/reviews" location="bottom_call" label="Call Now"/></div></div></section></main><SiteFooter/></div>}
