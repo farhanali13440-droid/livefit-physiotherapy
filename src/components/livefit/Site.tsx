@@ -1,0 +1,58 @@
+import { FormEvent, useState } from "react";
+import { CheckCircle2, Clock, MapPin, MessageCircle, Navigation, Phone, Star } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ADDRESS, MAPS_URL, PHONE_DISPLAY, PHONE_TEL, WHATSAPP } from "./data";
+import { createLead, trackLeadEvent, type LeadEventType } from "@/lib/leadTracking";
+import { trackPhoneConversion } from "@/lib/conversion";
+import doctorAsset from "@/assets/doctor-livefit.png.asset.json";
+
+export const PRICE = "PKR 1,499";
+
+export const REVIEWS = [
+["Ifrah Babar","a month ago","It was good clean environment and satisfactory assessment, my father session is going great with them","1 review · 6 photos"],
+["Abdul Ghaffar","2 months ago","Visited the clinic and very satisfied with the services provided by dr Soma. She is very professional and kind she heard me with patience. She is very competent I would recommend her.","2 reviews"],
+["Laiba Siddiqui","2 months ago","I highly recommend LiveFit Physio! I came in with severe shoulder, neck, and back pain, and the experience has been amazing. The doctor is incredibly well-qualified, professional, and took the time to guide me through everything thoroughly.","1 review"],
+["Junaid Nadeem","5 months ago","I had a great experience, Dr.Saad did my complete and detailed examination. I was happy with the session he provided me with and how he guided me with my treatment protocol.","2 reviews"],
+["Namra Kainat","2 months ago","Had a great experience. I had Cervical stiffness and neck muscle tightness for almost a year and had no idea about about aftr the proper consultation the doctor diagnosed it","4 reviews · 1 photo"],
+["Md Ali","5 months ago","Extremely professional and trustworthy having a good knowledge and skill in filed. I would recommend livefit physiotherapy the physio to every one","8 reviews"],
+["Usama Muhammad Nadeem","5 months ago","Dr. Saad is a really passionate physiotherapist. Everyone coming here will be in good hands! ✨","Local Guide · 15 reviews · 4 photos"],
+["Maryam Nazakat","4 months ago","I came for back stiffness, they recommended dry cupping. My experience was great and I highly recommend this clinic","4 reviews · 6 photos"],
+["ameer Mukhtar","3 months ago","Dr Saad ko back pain k liye visit kya tha and in 6 session now I'm feeling very much better","1 review"],
+["Laiba Gul","a month ago","I visited for a consultation and was impressed with a care and the treatment I received.","1 review"]
+] as const;
+
+const button = "inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition hover:-translate-y-0.5 hover:bg-charcoal";
+const outline = "inline-flex items-center justify-center gap-2.5 rounded-full border border-charcoal/20 bg-card px-6 py-3.5 text-sm font-semibold text-charcoal transition hover:bg-charcoal hover:text-background";
+export function Eyebrow({ children }: { children: string }) { return <p className="eyebrow text-primary">{children}</p>; }
+export function WhatsAppCTA({ label = "Book Your Assessment", page = "unknown", location = "cta" }: { label?: string; page?: string; location?: string }) {
+  const click = async (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); await trackLeadEvent("whatsapp_click", page, location); window.location.href = WHATSAPP; };
+  return <a href={WHATSAPP} onClick={click} className={button}><MessageCircle className="h-4 w-4" />{label}</a>;
+}
+export function CallCTA({ label = `Call ${PHONE_DISPLAY}`, page = "unknown", location = "cta" }: { label?: string; page?: string; location?: string }) {
+  const click = async (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); await trackLeadEvent("call_click", page, location); trackPhoneConversion(); window.location.href = PHONE_TEL; };
+  return <a href={PHONE_TEL} onClick={click} className={outline}><Phone className="h-4 w-4" />{label}</a>;
+}
+export function BookingCTA({ page, location = "booking_cta" }: { page: string; location?: string }) {
+  const click = async (e: React.MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); await trackLeadEvent("booking_cta_click", page, location); window.location.href = "/book-assessment"; };
+  return <a href="/book-assessment" onClick={click} className={button}>Book Assessment — {PRICE}</a>;
+}
+
+export function ReviewCard({ review }: { review: readonly [string,string,string,string] }) {
+  const [expanded, setExpanded] = useState(false); const [name,time,text,meta] = review;
+  return <article className="min-w-0 border border-border bg-card p-6"><div className="flex items-start justify-between gap-4"><div><p className="font-semibold">{name}</p><p className="mt-1 text-xs text-muted-foreground">{time}</p></div><Star className="h-5 w-5 fill-primary text-primary" /></div><div className="mt-4 text-sm tracking-wide text-primary">★★★★★</div><p className={`mt-4 text-[15px] leading-7 text-charcoal-soft ${expanded ? "" : "line-clamp-5"}`}>&quot;{text}&quot;</p>{text.length > 210 && <button onClick={() => setExpanded(v => !v)} className="mt-2 text-sm font-semibold text-primary">{expanded ? "Show less" : "Read more"}</button>}<p className="mt-5 text-xs text-muted-foreground">{meta}</p><p className="mt-3 text-[11px] font-medium text-muted-foreground">Google review</p></article>;
+}
+
+export function ReviewsSection({ compact = false }: { compact?: boolean }) {
+ return <section id="reviews" className="border-y border-border bg-sand"><div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24"><div className="max-w-2xl"><Eyebrow>Real Google Reviews</Eyebrow><h2 className="mt-4 font-display text-5xl sm:text-6xl">What Our Patients Say</h2><p className="mt-5 text-base leading-7 text-muted-foreground">Real experiences from patients who have visited LiveFit Physiotherapy.</p></div><div className={`mt-10 grid gap-5 md:grid-cols-2 ${compact ? "lg:grid-cols-3" : "lg:grid-cols-3"}`}>{REVIEWS.slice(0, compact ? 3 : 10).map((r) => <ReviewCard key={r[0]} review={r} />)}</div><div className="mt-10 flex flex-col gap-3 sm:flex-row"><WhatsAppCTA page="/reviews" location="reviews_cta" label="Book Your Assessment" /><CallCTA page="/reviews" location="reviews_cta" label="Call Now" /></div></div></section>;
+}
+
+export function BookingForm() {
+ const [status,setStatus]=useState<"idle"|"saving"|"success"|"error">("idle"); const [message,setMessage]=useState("");
+ async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setStatus("saving");setMessage("");const f=new FormData(e.currentTarget);try{await createLead({name:String(f.get("name")||""),phone:String(f.get("phone")||""),email:String(f.get("email")||"")});await trackLeadEvent("assessment_form_submit","/book-assessment","assessment_form");setStatus("success");e.currentTarget.reset();}catch(err){setStatus("error");setMessage(err instanceof Error ? err.message : "Something went wrong. Please call LiveFit directly.");}}
+ if(status==="success") return <div className="border border-primary/30 bg-accent p-7"><CheckCircle2 className="h-7 w-7 text-primary"/><h3 className="mt-4 font-display text-3xl">Request received</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Thank you. LiveFit will use your details to follow up about your assessment.</p><div className="mt-6 flex flex-col gap-3 sm:flex-row"><WhatsAppCTA page="/book-assessment" location="success_cta" label="WhatsApp to Book"/><CallCTA page="/book-assessment" location="success_cta" label="Call Now"/></div></div>;
+ return <form onSubmit={submit} className="border border-border bg-card p-6 shadow-[0_24px_70px_-45px_oklch(0.24_0.006_150_/_0.45)] sm:p-8"><div className="grid gap-5 sm:grid-cols-2"><label className="block sm:col-span-2"><span className="mb-2 block text-sm font-semibold">Name</span><input required name="name" className="w-full border border-border bg-background px-4 py-3.5 outline-none focus:border-primary" placeholder="Your name" /></label><label className="block"><span className="mb-2 block text-sm font-semibold">Phone</span><input required name="phone" type="tel" className="w-full border border-border bg-background px-4 py-3.5 outline-none focus:border-primary" placeholder="0332 3337337" /></label><label className="block"><span className="mb-2 block text-sm font-semibold">Email</span><input required name="email" type="email" className="w-full border border-border bg-background px-4 py-3.5 outline-none focus:border-primary" placeholder="you@example.com" /></label><fieldset className="sm:col-span-2"><legend className="mb-2 text-sm font-semibold">Preferred Contact Method</legend><div className="flex gap-3"><label className="flex flex-1 items-center gap-2 border border-border p-3"><input type="radio" name="preferred_contact" value="Call" defaultChecked /> Call</label><label className="flex flex-1 items-center gap-2 border border-border p-3"><input type="radio" name="preferred_contact" value="WhatsApp" /> WhatsApp</label></div></fieldset></div>{status==="error"&&<p className="mt-4 text-sm text-destructive">{message}</p>}<button disabled={status==="saving"} className={`${button} mt-6 w-full disabled:opacity-60`}>{status==="saving" ? "Submitting…" : "Book My Assessment"}</button><p className="mt-3 text-center text-xs text-muted-foreground">Assessment: {PRICE} · F-7 Markaz, Islamabad</p></form>;
+}
+
+export function SiteFooter(){return <footer className="bg-charcoal text-background"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-2 lg:grid-cols-4"><div><p className="font-display text-2xl">LiveFit Physiotherapy</p><p className="mt-3 text-sm leading-6 text-background/65">Specialized Spine & Sports Physiotherapy</p><p className="mt-4 text-sm text-background/65">{ADDRESS}</p></div><div><p className="eyebrow text-primary">Navigation</p><div className="mt-4 grid gap-3 text-sm"><Link to="/">Home</Link><Link to="/other-services">Other Services</Link><Link to="/about-dr-saad">Dr. Saad</Link><Link to="/reviews">Reviews</Link><Link to="/book-assessment">Contact / Book</Link></div></div><div><p className="eyebrow text-primary">Contact</p><p className="mt-4 text-sm">{PHONE_DISPLAY}</p><p className="mt-2 text-sm text-background/65">Mon–Sat · 12 PM–8 PM<br/>Sunday · Closed</p></div><div><BookingCTA page="footer" location="footer_cta"/><div className="mt-3"><CallCTA page="footer" location="footer_call" label="Call Now"/></div></div></div></footer>}
+export function LocationBlock(){return <section className="border-t border-border"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:py-24"><div><Eyebrow>Visit LiveFit Physiotherapy</Eyebrow><h2 className="mt-4 font-display text-5xl">F-7 Markaz, Islamabad</h2><div className="mt-7 space-y-4 text-sm text-muted-foreground"><p className="flex gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary"/>{ADDRESS}</p><p className="flex gap-3"><Phone className="h-5 w-5 shrink-0 text-primary"/>{PHONE_DISPLAY}</p><p className="flex gap-3"><Clock className="h-5 w-5 shrink-0 text-primary"/>Monday–Saturday · 12 PM–8 PM<br/>Sunday · Closed</p></div><div className="mt-7 flex flex-col gap-3 sm:flex-row"><a href={MAPS_URL} target="_blank" rel="noreferrer" className={outline}><Navigation className="h-4 w-4"/>Get Directions</a><WhatsAppCTA page="/contact" location="location_cta" label="WhatsApp to Book"/><CallCTA page="/contact" location="location_call" label="Call Now"/></div></div><iframe title="LiveFit Physiotherapy location" src="https://www.google.com/maps?q=Suite%23%20LG-04%2C%20Pakland%20Trade%20Centre%2C%20F7%20Markaz%2C%20Islamabad&output=embed" className="min-h-[360px] w-full border-0" loading="lazy" /></div></section>}
+export { doctorAsset };
