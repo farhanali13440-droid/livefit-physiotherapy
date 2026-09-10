@@ -21,7 +21,7 @@ function DashboardLogin() {
     setError("");
     const url = functionUrl();
     if (!url) {
-      setError("Dashboard backend is not configured. Please configure the existing Supabase project URL and deploy the dashboard function.");
+      setError("Dashboard backend is not connected. Configure VITE_SUPABASE_URL and deploy the existing livefit-dashboard Supabase function.");
       setLoading(false);
       return;
     }
