@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { FormEvent, useState } from "react";
-import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/dashboard/login")({ component: DashboardLogin });
 
@@ -21,27 +20,20 @@ function DashboardLogin() {
     setLoading(true);
     setError("");
     const url = functionUrl();
-    if (!url || !supabase) {
-      setError("Dashboard backend is not configured. Please configure the existing Supabase URL and deploy the dashboard function.");
+    if (!url) {
+      setError("Dashboard backend is not configured. Please configure the existing Supabase project URL and deploy the dashboard function.");
       setLoading(false);
       return;
     }
     try {
-      const response = await fetch(`${url}?action=login`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
-      });
+      const response = await fetch(`${url}?action=login`, { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.trim(), password }) });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(result.error || "Login failed.");
       void navigate({ to: "/dashboard", replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed.");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   }
 
-  return <main className="min-h-screen bg-background px-5 py-12 text-charcoal sm:px-8"><div className="mx-auto flex min-h-[70vh] max-w-md items-center"><form onSubmit={submit} className="w-full border border-border bg-card p-7 shadow-sm sm:p-9"><p className="eyebrow text-primary">LiveFit Physiotherapy</p><h1 className="mt-2 font-display text-3xl font-bold">Private Dashboard</h1><p className="mt-2 text-sm text-muted-foreground">Sign in to view LiveFit leads and conversion activity.</p><label className="mt-7 block"><span className="mb-2 block text-sm font-semibold">Email</span><input type="email" autoComplete="username" required value={email} onChange={e => setEmail(e.target.value)} className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary" /></label><label className="mt-4 block"><span className="mb-2 block text-sm font-semibold">Password</span><input type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary" /></label>{error && <p className="mt-4 border border-border bg-sand p-3 text-sm text-destructive">{error}</p>}<button disabled={loading} className="mt-6 w-full rounded-full bg-charcoal px-5 py-3 text-sm font-semibold text-background disabled:opacity-60">{loading ? "Signing in…" : "Open Dashboard"}</button></form></div></main>;
+  return <main className="min-h-screen bg-background px-5 py-12 text-charcoal sm:px-8"><div className="mx-auto flex min-h-[70vh] max-w-md items-center"><form onSubmit={submit} className="w-full border border-border bg-card p-7 shadow-sm sm:p-9"><p className="eyebrow text-primary">LiveFit Physiotherapy</p><h1 className="mt-2 font-display text-3xl font-bold">Private Dashboard</h1><p className="mt-2 text-sm text-muted-foreground">Sign in to view LiveFit leads and conversion activity.</p><label className="mt-7 block"><span className="mb-2 block text-sm font-semibold">Email</span><input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)} className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary" /></label><label className="mt-4 block"><span className="mb-2 block text-sm font-semibold">Password</span><input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} className="w-full border border-border bg-background px-4 py-3 outline-none focus:border-primary" /></label>{error&&<p className="mt-4 border border-border bg-sand p-3 text-sm text-destructive">{error}</p>}<button disabled={loading} className="mt-6 w-full rounded-full bg-charcoal px-5 py-3 text-sm font-semibold text-background disabled:opacity-60">{loading?"Signing in…":"Open Dashboard"}</button></form></div></main>;
 }
