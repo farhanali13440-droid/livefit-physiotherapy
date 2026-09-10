@@ -1,17 +1,17 @@
 alter table public.leads
   add column if not exists notes text not null default '';
 
+update public.leads
+set lead_status = 'New'
+where lead_status is null
+   or lead_status not in ('New','Contacted','Assessment Booked','Completed','No Response','Cancelled');
+
 alter table public.leads
   drop constraint if exists leads_lead_status_check;
 
 alter table public.leads
   add constraint leads_lead_status_check
   check (lead_status in ('New','Contacted','Assessment Booked','Completed','No Response','Cancelled'));
-
-update public.leads
-set lead_status = 'New'
-where lead_status is null
-   or lead_status not in ('New','Contacted','Assessment Booked','Completed','No Response','Cancelled');
 
 revoke all on table public.leads from anon;
 revoke all on table public.leads from authenticated;
