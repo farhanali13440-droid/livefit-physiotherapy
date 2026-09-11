@@ -13,14 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutDrSaadRouteImport } from './routes/about-dr-saad'
 import { Route as BackPainPhysiotherapyIslamabadRouteImport } from './routes/back-pain-physiotherapy-islamabad'
 import { Route as BookAssessmentRouteImport } from './routes/book-assessment'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DiscBulgePhysiotherapyIslamabadRouteImport } from './routes/disc-bulge-physiotherapy-islamabad'
 import { Route as OtherServicesRouteImport } from './routes/other-services'
-import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as SciaticaPhysiotherapyIslamabadRouteImport } from './routes/sciatica-physiotherapy-islamabad'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardLoginRouteImport } from './routes/dashboard.login'
-import { Route as OwnerLoginRouteImport } from './routes/owner.login'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -43,11 +41,6 @@ const BookAssessmentRoute = BookAssessmentRouteImport.update({
   path: '/book-assessment',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DiscBulgePhysiotherapyIslamabadRoute =
   DiscBulgePhysiotherapyIslamabadRouteImport.update({
     id: '/disc-bulge-physiotherapy-islamabad',
@@ -57,11 +50,6 @@ const DiscBulgePhysiotherapyIslamabadRoute =
 const OtherServicesRoute = OtherServicesRouteImport.update({
   id: '/other-services',
   path: '/other-services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OwnerRoute = OwnerRouteImport.update({
-  id: '/owner',
-  path: '/owner',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReviewsRoute = ReviewsRouteImport.update({
@@ -75,15 +63,15 @@ const SciaticaPhysiotherapyIslamabadRoute =
     path: '/sciatica-physiotherapy-islamabad',
     getParentRoute: () => rootRouteImport,
   } as any)
-const DashboardLoginRoute = DashboardLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => DashboardRoute,
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const OwnerLoginRoute = OwnerLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => OwnerRoute,
+const DashboardLoginRoute = DashboardLoginRouteImport.update({
+  id: '/dashboard/login',
+  path: '/dashboard/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -91,28 +79,24 @@ export interface FileRoutesByFullPath {
   '/about-dr-saad': typeof AboutDrSaadRoute
   '/back-pain-physiotherapy-islamabad': typeof BackPainPhysiotherapyIslamabadRoute
   '/book-assessment': typeof BookAssessmentRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/disc-bulge-physiotherapy-islamabad': typeof DiscBulgePhysiotherapyIslamabadRoute
   '/other-services': typeof OtherServicesRoute
-  '/owner': typeof OwnerRouteWithChildren
   '/reviews': typeof ReviewsRoute
   '/sciatica-physiotherapy-islamabad': typeof SciaticaPhysiotherapyIslamabadRoute
   '/dashboard/login': typeof DashboardLoginRoute
-  '/owner/login': typeof OwnerLoginRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about-dr-saad': typeof AboutDrSaadRoute
   '/back-pain-physiotherapy-islamabad': typeof BackPainPhysiotherapyIslamabadRoute
   '/book-assessment': typeof BookAssessmentRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/disc-bulge-physiotherapy-islamabad': typeof DiscBulgePhysiotherapyIslamabadRoute
   '/other-services': typeof OtherServicesRoute
-  '/owner': typeof OwnerRouteWithChildren
   '/reviews': typeof ReviewsRoute
   '/sciatica-physiotherapy-islamabad': typeof SciaticaPhysiotherapyIslamabadRoute
   '/dashboard/login': typeof DashboardLoginRoute
-  '/owner/login': typeof OwnerLoginRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -120,14 +104,12 @@ export interface FileRoutesById {
   '/about-dr-saad': typeof AboutDrSaadRoute
   '/back-pain-physiotherapy-islamabad': typeof BackPainPhysiotherapyIslamabadRoute
   '/book-assessment': typeof BookAssessmentRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/disc-bulge-physiotherapy-islamabad': typeof DiscBulgePhysiotherapyIslamabadRoute
   '/other-services': typeof OtherServicesRoute
-  '/owner': typeof OwnerRouteWithChildren
   '/reviews': typeof ReviewsRoute
   '/sciatica-physiotherapy-islamabad': typeof SciaticaPhysiotherapyIslamabadRoute
   '/dashboard/login': typeof DashboardLoginRoute
-  '/owner/login': typeof OwnerLoginRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -136,42 +118,36 @@ export interface FileRouteTypes {
     | '/about-dr-saad'
     | '/back-pain-physiotherapy-islamabad'
     | '/book-assessment'
-    | '/dashboard'
     | '/disc-bulge-physiotherapy-islamabad'
     | '/other-services'
-    | '/owner'
     | '/reviews'
     | '/sciatica-physiotherapy-islamabad'
     | '/dashboard/login'
-    | '/owner/login'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about-dr-saad'
     | '/back-pain-physiotherapy-islamabad'
     | '/book-assessment'
-    | '/dashboard'
     | '/disc-bulge-physiotherapy-islamabad'
     | '/other-services'
-    | '/owner'
     | '/reviews'
     | '/sciatica-physiotherapy-islamabad'
     | '/dashboard/login'
-    | '/owner/login'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/about-dr-saad'
     | '/back-pain-physiotherapy-islamabad'
     | '/book-assessment'
-    | '/dashboard'
     | '/disc-bulge-physiotherapy-islamabad'
     | '/other-services'
-    | '/owner'
     | '/reviews'
     | '/sciatica-physiotherapy-islamabad'
     | '/dashboard/login'
-    | '/owner/login'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,12 +155,12 @@ export interface RootRouteChildren {
   AboutDrSaadRoute: typeof AboutDrSaadRoute
   BackPainPhysiotherapyIslamabadRoute: typeof BackPainPhysiotherapyIslamabadRoute
   BookAssessmentRoute: typeof BookAssessmentRoute
-  DashboardRoute: typeof DashboardRouteWithChildren
   DiscBulgePhysiotherapyIslamabadRoute: typeof DiscBulgePhysiotherapyIslamabadRoute
   OtherServicesRoute: typeof OtherServicesRoute
-  OwnerRoute: typeof OwnerRouteWithChildren
   ReviewsRoute: typeof ReviewsRoute
   SciaticaPhysiotherapyIslamabadRoute: typeof SciaticaPhysiotherapyIslamabadRoute
+  DashboardLoginRoute: typeof DashboardLoginRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -217,13 +193,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookAssessmentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/disc-bulge-physiotherapy-islamabad': {
       id: '/disc-bulge-physiotherapy-islamabad'
       path: '/disc-bulge-physiotherapy-islamabad'
@@ -236,13 +205,6 @@ declare module '@tanstack/react-router' {
       path: '/other-services'
       fullPath: '/other-services'
       preLoaderRoute: typeof OtherServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/owner': {
-      id: '/owner'
-      path: '/owner'
-      fullPath: '/owner'
-      preLoaderRoute: typeof OwnerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reviews': {
@@ -259,56 +221,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SciaticaPhysiotherapyIslamabadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/login': {
       id: '/dashboard/login'
-      path: '/login'
+      path: '/dashboard/login'
       fullPath: '/dashboard/login'
       preLoaderRoute: typeof DashboardLoginRouteImport
-      parentRoute: typeof DashboardRoute
-    }
-    '/owner/login': {
-      id: '/owner/login'
-      path: '/login'
-      fullPath: '/owner/login'
-      preLoaderRoute: typeof OwnerLoginRouteImport
-      parentRoute: typeof OwnerRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface DashboardRouteChildren {
-  DashboardLoginRoute: typeof DashboardLoginRoute
-}
-
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardLoginRoute: DashboardLoginRoute,
-}
-
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
-)
-
-interface OwnerRouteChildren {
-  OwnerLoginRoute: typeof OwnerLoginRoute
-}
-
-const OwnerRouteChildren: OwnerRouteChildren = {
-  OwnerLoginRoute: OwnerLoginRoute,
-}
-
-const OwnerRouteWithChildren = OwnerRoute._addFileChildren(OwnerRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutDrSaadRoute: AboutDrSaadRoute,
   BackPainPhysiotherapyIslamabadRoute: BackPainPhysiotherapyIslamabadRoute,
   BookAssessmentRoute: BookAssessmentRoute,
-  DashboardRoute: DashboardRouteWithChildren,
   DiscBulgePhysiotherapyIslamabadRoute: DiscBulgePhysiotherapyIslamabadRoute,
   OtherServicesRoute: OtherServicesRoute,
-  OwnerRoute: OwnerRouteWithChildren,
   ReviewsRoute: ReviewsRoute,
   SciaticaPhysiotherapyIslamabadRoute: SciaticaPhysiotherapyIslamabadRoute,
+  DashboardLoginRoute: DashboardLoginRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
