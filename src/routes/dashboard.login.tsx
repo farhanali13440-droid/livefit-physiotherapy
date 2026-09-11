@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 export const Route = createFileRoute("/dashboard/login")({ component: DashboardLogin });
 
 const functionUrl = () => {
-  const base = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+  const base = import.meta.env["VITE_SUPABASE_URL"] as string | undefined;
   return base ? `${base.replace(/\/$/, "")}/functions/v1/livefit-dashboard` : "";
 };
 

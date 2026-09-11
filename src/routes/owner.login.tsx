@@ -12,12 +12,13 @@ function OwnerLogin() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!supabase) return;
-    void supabase.auth.getSession().then(async ({ data }) => {
+    const client = supabase;
+    if (!client) return;
+    void client.auth.getSession().then(async ({ data }) => {
       if (!data.session) return;
-      const { data: owner } = await supabase.rpc("is_livefit_owner");
+      const { data: owner } = await client.rpc("is_livefit_owner");
       if (owner === true) void navigate({ to: "/owner", replace: true });
-      else await supabase.auth.signOut();
+      else await client.auth.signOut();
     });
   }, [navigate]);
 
